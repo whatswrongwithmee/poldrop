@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Drop — Markets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --blue:#2563eb;--blue-2:#1d4ed8;--blue-bright:#2f6bff;
+    --ink:#0d1424;--ink-2:#1e293b;--muted:#64748b;--muted-2:#94a3b8;
+    --green:#16a34a;--green-bg:#ecfdf3;--green-bg2:#dcfce7;
+    --red:#ef4444;--red-bg:#fef2f2;--amber:#f59e0b;
+    --line:#eef1f7;--card:#ffffff;--bg:#f4f7ff;
+    --shadow:0 12px 34px rgba(16,24,64,.06);--shadow-sm:0 6px 18px rgba(16,24,64,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);
+    background:radial-gradient(1200px 600px at 78% -8%, #eef1ff 0%, rgba(238,241,255,0) 60%),radial-gradient(900px 500px at 12% 6%, #f1f5ff 0%, rgba(241,245,255,0) 55%),linear-gradient(180deg,#f7f9ff 0%,#ffffff 40%);
+    -webkit-font-smoothing:antialiased;line-height:1.45;min-height:100vh}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+  a{text-decoration:none;color:inherit}
+  svg{display:block}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(8px);background:rgba(247,249,255,.72);border-bottom:1px solid rgba(238,241,247,.8)}
+  .nav{display:flex;align-items:center;gap:42px;height:80px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(150deg,#3b82f6,#1d4ed8);display:grid;place-items:center;box-shadow:0 8px 18px rgba(37,99,235,.35)}
+  .wordmark{font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .nav-links{display:flex;gap:34px;align-items:center}
+  .nav-links a{color:#334155;font-weight:600;font-size:15px;position:relative}
+  .nav-links a:hover{color:var(--blue)}
+  .nav-links a.active{color:var(--blue)}
+  .nav-links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-28px;height:3px;background:var(--blue);border-radius:3px 3px 0 0}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+  .icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:#475569;transition:border-color .18s ease,box-shadow .2s ease,background .18s ease}
+  .icon-btn:hover{border-color:#dbe2ee;box-shadow:0 4px 12px -4px rgba(16,24,64,.14)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-family:inherit;border:none;cursor:pointer;border-radius:13px;font-size:15px;transition:transform .18s ease,box-shadow .22s ease,filter .18s ease}
+  .btn-blue{background:linear-gradient(180deg,#2f6bff,#2152e6);color:#fff;padding:13px 22px;box-shadow:0 2px 6px rgba(37,99,235,.22)}
+  .btn-blue:hover{filter:brightness(1.04);box-shadow:0 8px 18px -4px rgba(37,99,235,.4);transform:translateY(-1px)}
+
+  /* PAGE HEAD */
+  main{padding:36px 0 70px}
+  .mkt-head{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  .mkt-head h1{font-size:38px;font-weight:800;letter-spacing:-.025em}
+  .mkt-head p{color:var(--muted);font-size:15px;margin-top:6px}
+  .mkt-status{margin-left:auto;display:flex;align-items:center;gap:16px}
+  .live{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:var(--green);background:var(--green-bg);padding:7px 13px;border-radius:999px}
+  .live i{width:8px;height:8px;border-radius:50%;background:var(--green);position:relative}
+  .live i::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green);opacity:.5;animation:ping 1.6s ease-out infinite}
+  @keyframes ping{0%{transform:scale(.6);opacity:.6}100%{transform:scale(1.6);opacity:0}}
+  #updated{font-size:13px;color:var(--muted-2);font-weight:600}
+
+  .mkt-tools{display:flex;align-items:center;gap:14px;margin-top:22px}
+  .search{flex:1;max-width:420px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:0 15px;height:46px}
+  .search svg{color:var(--muted-2);flex-shrink:0}
+  .search input{border:none;outline:none;background:transparent;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--ink);width:100%}
+  .search input::placeholder{color:var(--muted-2);font-weight:500}
+  #count{font-size:13px;color:var(--muted);font-weight:600;margin-left:auto;white-space:nowrap}
+
+  /* GRID */
+  .mkt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:14px;margin-top:22px}
+  .mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;min-height:192px;box-shadow:var(--shadow-sm);transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease;cursor:pointer;position:relative}
+  .mcard:hover{transform:translateY(-3px);box-shadow:0 14px 28px -12px rgba(16,24,64,.22);border-color:#dbe2ee}
+  .mc-top{display:flex;align-items:flex-start;gap:10px}
+  .mc-icon{width:36px;height:36px;border-radius:50%;flex-shrink:0;object-fit:cover;background:#e8edf6}
+  .mc-icon.ph{display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px}
+  .mc-meta{margin-left:auto;text-align:right;min-width:0}
+  .mc-ticker{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--ink-2);white-space:nowrap}
+  .mc-chg{font-size:12.5px;font-weight:700;margin-top:3px}
+  .mc-chg.up{color:var(--green)}
+  .mc-chg.down{color:var(--red)}
+  .mc-prob{display:flex;align-items:baseline;gap:6px;margin-top:15px}
+  .mc-prob b{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--ink)}
+  .mc-prob span{font-size:13px;color:var(--muted);font-weight:600}
+  .mc-q{font-size:13px;font-weight:600;color:var(--ink-2);margin-top:11px;line-height:1.36;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .mc-foot{margin-top:auto;padding-top:13px;display:flex;justify-content:space-between;border-top:1px solid var(--line)}
+  .mc-foot .blk .k{font-size:10.5px;color:var(--muted-2);font-weight:600;display:block}
+  .mc-foot .blk .v{font-size:13px;color:var(--ink-2);font-weight:700;margin-top:3px}
+  .mc-foot .blk.r{text-align:right}
+
+  /* skeleton */
+  .skel{pointer-events:none}
+  .skel .sk{background:linear-gradient(90deg,var(--line) 25%,rgba(148,163,184,.12) 37%,var(--line) 63%);background-size:400% 100%;animation:shimmer 1.3s ease infinite;border-radius:6px}
+  @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+  /* status msg */
+  .mkt-msg{margin-top:60px;text-align:center;color:var(--muted)}
+  .mkt-msg h3{font-size:20px;font-weight:800;color:var(--ink-2);margin-bottom:8px}
+  .mkt-msg p{font-size:14.5px;max-width:420px;margin:0 auto 18px}
+
+  /* DARK */
+  html[data-theme="dark"]{--ink:#eef2fb;--ink-2:#cdd6e8;--muted:#94a3bd;--muted-2:#6b7894;--line:#222c44;--card:#131a2c;--bg:#0a0f1d;--shadow:0 16px 40px rgba(0,0,0,.45);--shadow-sm:0 8px 22px rgba(0,0,0,.4);--blue-bright:#5b8bff;--green-bg:rgba(22,163,74,.14)}
+  html[data-theme="dark"] body{background:radial-gradient(1200px 600px at 78% -8%, #14203f 0%, rgba(20,32,63,0) 60%),radial-gradient(900px 500px at 12% 6%, #111a33 0%, rgba(17,26,51,0) 55%),linear-gradient(180deg,#0a0f1d 0%,#080c17 60%)}
+  html[data-theme="dark"] header{background:rgba(10,15,29,.78);border-bottom-color:rgba(34,44,68,.8)}
+  html[data-theme="dark"] .nav-links a{color:#aeb9d1}
+  html[data-theme="dark"] .nav-links a:hover,html[data-theme="dark"] .nav-links a.active{color:var(--blue-bright)}
+  html[data-theme="dark"] .nav-links a.active::after{background:var(--blue-bright)}
+  html[data-theme="dark"] .icon-btn{background:#131a2c;border-color:#283250;color:var(--ink)}
+  html[data-theme="dark"] .icon-btn:hover{border-color:#3a466a;box-shadow:none}
+  html[data-theme="dark"] .search{background:#10182b;border-color:var(--line)}
+  html[data-theme="dark"] .mcard:hover{border-color:#3a466a}
+  html[data-theme="dark"] .mc-icon{background:#1a2238}
+
+  @media(max-width:900px){.wrap{padding:0 22px}.nav-links{display:none}.mkt-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
+  @media(max-width:520px){.mkt-grid{grid-template-columns:1fr 1fr}.mkt-head h1{font-size:30px}}
+
+  /* WALLET CONNECT MODAL */
+  .wm-overlay{position:fixed;inset:0;z-index:90;background:rgba(8,12,23,.55);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:24px}
+  .wm-overlay.open{display:flex}
+  .wm{width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 36px 80px rgba(8,12,23,.4);overflow:hidden;animation:wmIn .24s cubic-bezier(.22,1,.36,1)}
+  @keyframes wmIn{from{transform:translateY(16px) scale(.98)}to{transform:none}}
+  .wm-hd{display:flex;align-items:center;gap:13px;padding:22px 24px 18px}
+  .wm-hd .ti{width:42px;height:42px;border-radius:12px;background:#eef4ff;display:grid;place-items:center;color:var(--blue)}
+  .wm-hd h3{font-size:19px;font-weight:800}
+  .wm-hd p{font-size:13px;color:var(--muted);font-weight:500;margin-top:2px}
+  .wm-close{margin-left:auto;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:transparent;display:grid;place-items:center;color:var(--muted);cursor:pointer;transition:border-color .16s ease,color .16s ease}
+  .wm-close:hover{border-color:#cdd7ea;color:var(--ink-2)}
+  .wm-list{padding:4px 16px 8px;display:flex;flex-direction:column;gap:8px}
+  .wm-opt{display:flex;align-items:center;gap:14px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;font-family:inherit;text-align:left;width:100%;transition:border-color .16s ease,background .16s ease,transform .12s ease}
+  .wm-opt:hover{border-color:#c6d2ea;background:#f7f9ff;transform:translateY(-1px)}
+  .wm-opt img{width:34px;height:34px;object-fit:contain}
+  .wm-opt img.r{border-radius:8px}
+  .wm-opt .nm{font-size:15px;font-weight:700;color:var(--ink)}
+  .wm-opt .sub{font-size:12px;color:var(--muted);font-weight:600;margin-top:1px}
+  .wm-opt .badge2{margin-left:auto;font-size:11px;font-weight:700;color:var(--green);background:var(--green-bg);padding:4px 9px;border-radius:999px}
+  .wm-opt .chev{margin-left:auto;color:var(--muted-2)}
+  .wm-opt .nm-wrap{min-width:0}
+  .wm-foot{padding:14px 24px 22px;display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px;font-weight:600}
+  .wm-foot svg{color:var(--blue);flex-shrink:0}
+  .wm-connecting{display:none;flex-direction:column;align-items:center;text-align:center;padding:14px 30px 34px}
+  .wm.is-connecting .wm-list,.wm.is-connecting .wm-foot{display:none}
+  .wm.is-connecting .wm-connecting{display:flex}
+  .wm-spin{position:relative;width:84px;height:84px;margin:8px 0 20px}
+  .wm-spin .ring{position:absolute;inset:0;border-radius:50%;border:3px solid var(--line);border-top-color:var(--blue);animation:wmspin .8s linear infinite}
+  @keyframes wmspin{to{transform:rotate(360deg)}}
+  .wm-spin img{position:absolute;inset:18px;width:48px;height:48px;object-fit:contain}
+  .wm-spin img.r{border-radius:10px}
+  .wm-connecting h4{font-size:18px;font-weight:800}
+  .wm-connecting p{font-size:13.5px;color:var(--muted);margin-top:6px;font-weight:500}
+  html[data-theme="dark"] .wm-opt{background:#10182b;border-color:var(--line)}
+  html[data-theme="dark"] .wm-opt:hover{background:#16213d;border-color:#3a466a}
+  html[data-theme="dark"] .wm-hd .ti{background:#16213d}
+  html[data-theme="dark"] .wm-close{border-color:var(--line);color:#aeb9d1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <a href="Drop Landing.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="#fff" opacity=".95"/><path d="M12 2 21 7l-9 5-9-5 9-5Z" fill="#dbe7ff"/><path d="M12 12 21 7v10l-9 5V12Z" fill="#bcd2ff"/></svg>
+      </a>
+      <a href="Drop Landing.html" class="wordmark">Polydrop</a>
+    </div>
+    <nav class="nav-links">
+      <a href="About Polydrop.html">About Polydrop</a>
+      <a href="https://docs.polymarket.com/" target="_blank" rel="noopener">Documentation</a>
+    </nav>
+    <div class="nav-right">
+
+      <a href="Drop Dashboard.html" class="btn btn-blue">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20"/><circle cx="17" cy="14" r="1.4" fill="currentColor"/></svg>
+        Connect Wallet
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="mkt-head">
+    <div>
+      <h1>Markets</h1>
+      <p>Live prediction markets from Polymarket — prices update in real time.</p>
+    </div>
+    <div class="mkt-status">
+      <span class="live"><i></i>Live</span>
+      <span id="updated">Loading…</span>
+    </div>
+  </div>
+
+  <div class="mkt-tools">
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+      <input id="search" type="text" placeholder="Search markets…" autocomplete="off" />
+    </label>
+    <span id="count"></span>
+  </div>
+
+  <div class="mkt-grid" id="grid"></div>
+  <div id="msg"></div>
+</main>
+
+<script>
+(function(){
+  /* ---- theme (shared with the rest of the site) ---- */
+  var root=document.documentElement;
+  root.removeAttribute('data-theme');
+  function syncTheme(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    document.querySelectorAll('.ic-sun').forEach(function(e){e.style.display=dark?'none':'block';});
+    document.querySelectorAll('.ic-moon').forEach(function(e){e.style.display=dark?'block':'none';});
+  }
+  syncTheme();
+  var tbtn=document.getElementById('themeToggle');
+  if(tbtn) tbtn.addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    if(dark){root.removeAttribute('data-theme');localStorage.setItem('drop-theme','light');}
+    else{root.setAttribute('data-theme','dark');localStorage.setItem('drop-theme','dark');}
+    syncTheme();
+  });
+})();
+
+(function(){
+  var GAMMA='https://gamma-api.polymarket.com/markets?closed=false&active=true&order=volume24hr&ascending=false&limit=72';
+  var grid=document.getElementById('grid');
+  var msg=document.getElementById('msg');
+  var search=document.getElementById('search');
+  var countEl=document.getElementById('count');
+  var updatedEl=document.getElementById('updated');
+  var all=[]; var lastFetch=0; var query='';
+
+  var STOP=new Set(['will','is','are','was','were','does','do','did','has','have','had','can','could','would','should','the','a','an','to','of','in','on','by','at','vs','and','for','be','no','if','this','that','which','who','what','when']);
+  function ticker(q){
+    var words=(q||'').replace(/[^a-zA-Z0-9 ]/g,' ').split(/\s+/).filter(Boolean);
+    var w=words.find(function(x){return !STOP.has(x.toLowerCase());})||words[0]||'MKT';
+    return w.toUpperCase().slice(0,5);
+  }
+  function fmtVol(v){
+    v=Number(v)||0;
+    if(v>=1e9) return '$'+(v/1e9).toFixed(2)+'B';
+    if(v>=1e6) return '$'+(v/1e6).toFixed(2)+'M';
+    if(v>=1e3) return '$'+(v/1e3).toFixed(1)+'K';
+    return '$'+v.toFixed(0);
+  }
+  var PALETTE=['#2563eb','#7c3aed','#16a34a','#ea580c','#dc2626','#0891b2','#db2777','#ca8a04'];
+  function colorFor(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return PALETTE[h%PALETTE.length];}
+
+  function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  function cardHTML(m){
+    var prices=[]; try{prices=JSON.parse(m.outcomePrices||'[]');}catch(e){}
+    var yes=prices.length?parseFloat(prices[0]):(parseFloat(m.lastTradePrice)||0);
+    if(isNaN(yes)) yes=0;
+    var yesPct=Math.round(yes*100);
+    var chg=(m.oneDayPriceChange!=null)?parseFloat(m.oneDayPriceChange):(yes-0.5);
+    if(isNaN(chg)) chg=0;
+    var chgPct=chg*100;
+    var up=chgPct>=0;
+    var tk=esc(ticker(m.question));
+    var vol=fmtVol(m.volume24hr!=null?m.volume24hr:m.volume);
+    var icon=m.icon||m.image;
+    var iconHTML;
+    if(icon){
+      iconHTML='<img class="mc-icon" src="'+esc(icon)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=&quot;<div class=\\&quot;mc-icon ph\\&quot; style=\\&quot;background:'+colorFor(tk)+'\\&quot;>'+tk.charAt(0)+'</div>&quot;" />';
+    }else{
+      iconHTML='<div class="mc-icon ph" style="background:'+colorFor(tk)+'">'+tk.charAt(0)+'</div>';
+    }
+    return '<div class="mcard">'
+      +'<div class="mc-top">'+iconHTML
+        +'<div class="mc-meta"><div class="mc-ticker">'+tk+'</div>'
+        +'<div class="mc-chg '+(up?'up':'down')+'">'+(up?'+':'')+chgPct.toFixed(2)+'%</div></div></div>'
+      +'<div class="mc-prob"><b>'+yesPct+'</b><span>% Yes</span></div>'
+      +'<div class="mc-q">'+esc(m.question)+'</div>'
+      +'<div class="mc-foot"><div class="blk"><span class="k">24h Vol</span><span class="v">'+vol+'</span></div>'
+        +'<div class="blk r"><span class="k">Leverage</span><span class="v">10×</span></div></div>'
+      +'</div>';
+  }
+
+  function skeletons(n){
+    var h='';
+    for(var i=0;i<n;i++){
+      h+='<div class="mcard skel"><div class="mc-top"><div class="sk" style="width:36px;height:36px;border-radius:50%"></div>'
+        +'<div class="mc-meta" style="flex:1"><div class="sk" style="width:46px;height:12px;margin-left:auto"></div><div class="sk" style="width:54px;height:12px;margin:6px 0 0 auto"></div></div></div>'
+        +'<div class="sk" style="width:70px;height:30px;margin-top:15px"></div>'
+        +'<div class="sk" style="width:100%;height:12px;margin-top:13px"></div><div class="sk" style="width:75%;height:12px;margin-top:7px"></div>'
+        +'<div class="mc-foot"><div class="sk" style="width:60px;height:24px"></div><div class="sk" style="width:50px;height:24px"></div></div></div>';
+    }
+    return h;
+  }
+
+  function render(){
+    var list=all;
+    if(query){
+      var q=query.toLowerCase();
+      list=all.filter(function(m){return (m.question||'').toLowerCase().indexOf(q)>=0;});
+    }
+    if(!list.length){
+      grid.innerHTML='';
+      msg.innerHTML='<div class="mkt-msg"><h3>No markets found</h3><p>Try a different search.</p></div>';
+      countEl.textContent='';
+      return;
+    }
+    msg.innerHTML='';
+    grid.innerHTML=list.map(cardHTML).join('');
+    countEl.textContent=list.length+' markets';
+  }
+
+  function relTime(ts){
+    var s=Math.floor((Date.now()-ts)/1000);
+    if(s<5) return 'Updated just now';
+    if(s<60) return 'Updated '+s+'s ago';
+    var m=Math.floor(s/60); return 'Updated '+m+'m ago';
+  }
+  function tickClock(){ if(lastFetch) updatedEl.textContent=relTime(lastFetch); }
+
+  function load(){
+    fetch(GAMMA,{headers:{'Accept':'application/json'}})
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(function(data){
+        if(!Array.isArray(data)) throw new Error('bad payload');
+        var seen={};
+        all=data.filter(function(m){
+          if(!m.question) return false;
+          if(seen[m.question]) return false; seen[m.question]=1;
+          return true;
+        });
+        lastFetch=Date.now();
+        updatedEl.textContent='Updated just now';
+        render();
+      })
+      .catch(function(err){
+        if(all.length) return; // keep showing old data on transient errors
+        grid.innerHTML='';
+        msg.innerHTML='<div class="mkt-msg"><h3>Markets are taking a moment</h3>'
+          +'<p>Couldn\'t reach the live feed right now. Check your connection and try again.</p>'
+          +'<button class="btn btn-blue" id="retry">Retry</button></div>';
+        updatedEl.textContent='Offline';
+        var rb=document.getElementById('retry');
+        if(rb) rb.addEventListener('click',function(){grid.innerHTML=skeletons(18);msg.innerHTML='';load();});
+      });
+  }
+
+  search.addEventListener('input',function(){query=search.value.trim();render();});
+  grid.innerHTML=skeletons(18);
+  load();
+  setInterval(load,45000);   // auto-refresh prices
+  setInterval(tickClock,5000);
+})();
+</script>
+
+<div class="wm-overlay" id="wmOverlay">
+  <div class="wm" id="wmModal" role="dialog" aria-modal="true" aria-label="Connect a wallet">
+    <div class="wm-hd">
+      <div class="ti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20"/><circle cx="17" cy="14" r="1.4" fill="currentColor"/></svg></div>
+      <div>
+        <h3>Connect a wallet</h3>
+        <p>Choose how you want to connect</p>
+      </div>
+      <button class="wm-close" id="wmClose" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="wm-list">
+      <button class="wm-opt" data-wallet="MetaMask" data-icon="assets/wallet-metamask.png">
+        <img src="assets/wallet-metamask.png" alt="" />
+        <span class="nm-wrap"><span class="nm">MetaMask</span><span class="sub">Browser extension</span></span>
+        <span class="badge2">Detected</span>
+      </button>
+      <button class="wm-opt" data-wallet="Coinbase Wallet" data-icon="assets/wallet-coinbase.png" data-r="1">
+        <img src="assets/wallet-coinbase.png" alt="" class="r" />
+        <span class="nm-wrap"><span class="nm">Coinbase Wallet</span><span class="sub">Connect with Coinbase</span></span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+      <button class="wm-opt" data-wallet="WalletConnect" data-icon="assets/wallet-walletconnect.png">
+        <img src="assets/wallet-walletconnect.png" alt="" />
+        <span class="nm-wrap"><span class="nm">WalletConnect</span><span class="sub">Scan with mobile wallet</span></span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+      <button class="wm-opt" data-wallet="Phantom" data-icon="assets/wallet-phantom.png" data-r="1">
+        <img src="assets/wallet-phantom.png" alt="" class="r" />
+        <span class="nm-wrap"><span class="nm">Phantom</span><span class="sub">Browser extension</span></span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+    </div>
+    <div class="wm-foot">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      We never ask for your seed phrase or private keys.
+    </div>
+    <div class="wm-connecting">
+      <div class="wm-spin"><div class="ring"></div><img id="wmSpinIcon" src="assets/wallet-metamask.png" alt="" /></div>
+      <h4 id="wmConnTitle">Connecting to MetaMask…</h4>
+      <p>Approve the connection request in your wallet.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ov=document.getElementById('wmOverlay');
+  var modal=document.getElementById('wmModal');
+  var closeBtn=document.getElementById('wmClose');
+  var spinIcon=document.getElementById('wmSpinIcon');
+  var connTitle=document.getElementById('wmConnTitle');
+
+  function openModal(wallet){
+    modal.classList.remove('is-connecting');
+    ov.classList.add('open');
+    if(wallet){
+      var opt=modal.querySelector('.wm-opt[data-wallet="'+wallet+'"]');
+      if(opt){ connect(opt.getAttribute('data-wallet'),opt.getAttribute('data-icon'),opt.getAttribute('data-r')); }
+    }
+  }
+  function closeModal(){ ov.classList.remove('open'); modal.classList.remove('is-connecting'); }
+  function connect(name,icon,rounded){
+    spinIcon.src=icon;
+    spinIcon.className = rounded ? 'r' : '';
+    connTitle.textContent='Connecting to '+name+'…';
+    modal.classList.add('is-connecting');
+    setTimeout(function(){
+      localStorage.setItem('drop-connected','1');
+      localStorage.setItem('drop-wallet',name);
+      window.location.href='Drop Dashboard.html';
+    },1600);
+  }
+  document.querySelectorAll('.js-connect').forEach(function(el){
+    el.addEventListener('click',function(e){ e.preventDefault(); openModal(el.getAttribute('data-wallet')); });
+  });
+  modal.querySelectorAll('.wm-opt').forEach(function(opt){
+    opt.addEventListener('click',function(){ connect(opt.getAttribute('data-wallet'),opt.getAttribute('data-icon'),opt.getAttribute('data-r')); });
+  });
+  closeBtn.addEventListener('click',closeModal);
+  ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+})();
+</script>
+
+</body>
+</html>

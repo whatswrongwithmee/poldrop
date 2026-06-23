@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Drop — Connect. Predict. Get Rewarded.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --blue:#2563eb;
+    --blue-2:#1d4ed8;
+    --blue-bright:#2f6bff;
+    --ink:#0d1424;
+    --ink-2:#1e293b;
+    --muted:#64748b;
+    --muted-2:#94a3b8;
+    --green:#16a34a;
+    --green-bg:#ecfdf3;
+    --green-bg2:#dcfce7;
+    --red:#ef4444;
+    --red-bg:#fef2f2;
+    --amber:#f59e0b;
+    --amber-bg:#fffbeb;
+    --line:#eef1f7;
+    --card:#ffffff;
+    --bg:#f4f7ff;
+    --radius:18px;
+    --shadow:0 12px 34px rgba(16,24,64,.06);
+    --shadow-sm:0 6px 18px rgba(16,24,64,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 78% -8%, #eef1ff 0%, rgba(238,241,255,0) 60%),
+      radial-gradient(900px 500px at 12% 6%, #f1f5ff 0%, rgba(241,245,255,0) 55%),
+      linear-gradient(180deg,#f7f9ff 0%,#ffffff 40%);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.45;
+  }
+  .wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+  a{text-decoration:none;color:inherit}
+  svg{display:block}
+
+  /* ---------- NAV ---------- */
+  header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(8px);background:rgba(247,249,255,.72);border-bottom:1px solid rgba(238,241,247,.8)}
+  .nav{display:flex;align-items:center;gap:42px;height:80px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(150deg,#3b82f6,#1d4ed8);display:grid;place-items:center;box-shadow:0 8px 18px rgba(37,99,235,.35)}
+  .wordmark{font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .nav-links{display:flex;gap:34px;align-items:center}
+  .nav-links a{color:#334155;font-weight:600;font-size:15px}
+  .nav-links a:hover{color:var(--blue)}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+  .icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:#475569;transition:border-color .18s ease,box-shadow .2s ease,background .18s ease}
+  .icon-btn:hover{border-color:#dbe2ee;box-shadow:0 4px 12px -4px rgba(16,24,64,.14)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-family:inherit;border:none;cursor:pointer;border-radius:13px;font-size:15px;transition:transform .18s ease,box-shadow .22s ease,filter .18s ease,border-color .18s ease}
+  .btn-blue{background:linear-gradient(180deg,#3b78ff,#2453e8);color:#fff;padding:13px 22px;box-shadow:0 1px 1px rgba(20,40,110,.12),0 6px 16px -4px rgba(37,99,235,.34)}
+  .btn-blue:hover{filter:brightness(1.04);transform:translateY(-1px);box-shadow:0 2px 4px rgba(20,40,110,.14),0 12px 24px -6px rgba(37,99,235,.42)}
+  .btn-blue:active{transform:translateY(0);box-shadow:0 1px 2px rgba(20,40,110,.16),0 4px 10px -4px rgba(37,99,235,.32)}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid #e2e8f3;padding:13px 22px;box-shadow:0 1px 2px rgba(16,24,64,.04)}
+  .btn-ghost:hover{border-color:#cdd7ea;transform:translateY(-1px);box-shadow:0 6px 16px -6px rgba(16,24,64,.16)}
+  .btn-ghost:active{transform:translateY(0);box-shadow:0 1px 2px rgba(16,24,64,.05)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:54px 0 26px;display:grid;grid-template-columns:minmax(420px,1fr) 1.18fr;gap:46px;align-items:start}
+  .badge{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid #e3e9f6;border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--blue);box-shadow:var(--shadow-sm)}
+  .dot{position:relative;width:10px;height:10px;border-radius:50%;background:#22c55e;animation:dotBlink 1.4s ease-in-out infinite}
+  .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:#22c55e;animation:dotRipple 1.4s ease-out infinite}
+  @keyframes dotBlink{
+    0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(34,197,94,.48);filter:brightness(1)}
+    50%{transform:scale(1.2);box-shadow:0 0 6px 1px rgba(34,197,94,.72);filter:brightness(1.2)}
+  }
+  @keyframes dotRipple{
+    0%{transform:scale(1);opacity:.56}
+    100%{transform:scale(2.75);opacity:0}
+  }
+
+  /* hero entrance + sparkline draw (motion-safe: content visible by default) */
+  @keyframes heroIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: no-preference){
+    .hero-left > *{animation:heroIn .7s cubic-bezier(.22,1,.36,1) both}
+    .hero-left > *:nth-child(1){animation-delay:.04s}
+    .hero-left > *:nth-child(2){animation-delay:.12s}
+    .hero-left > *:nth-child(3){animation-delay:.20s}
+    .hero-left > *:nth-child(4){animation-delay:.28s}
+    .hero-left > *:nth-child(5){animation-delay:.36s}
+    .hero-left > *:nth-child(6){animation-delay:.44s}
+    .hero-right{animation:heroIn .8s cubic-bezier(.22,1,.36,1) both;animation-delay:.34s}
+    .ao polyline{stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset 1s ease}
+    .ao.drawn polyline{stroke-dashoffset:0}
+    .ao polyline + circle{opacity:0;transition:opacity .3s ease .9s}
+    .ao.drawn polyline + circle{opacity:1}
+  }
+  /* live endpoint "ping" + gentle pulse — only the sparkline end dots */
+  .ao .mrow > svg circle{transform-box:fill-box;transform-origin:center;animation:liveDot 1.8s ease-in-out infinite}
+  @keyframes liveDot{0%,100%{transform:scale(1)}50%{transform:scale(1.55)}}
+  .ao .yn b{transition:transform .25s ease, color .25s ease}
+  .ao .yn.flash b{animation:ynFlash .6s ease}
+  @keyframes ynFlash{0%{transform:scale(1)}35%{transform:scale(1.28)}100%{transform:scale(1)}}
+  h1{font-size:74px;line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:24px 0 0}
+  h1 .b{color:var(--blue-bright)}
+  .lead{color:var(--muted);font-size:18px;margin-top:24px;max-width:430px;line-height:1.55}
+  .cta{display:flex;gap:16px;margin-top:30px}
+  .trust{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:nowrap}
+  .trust .hw-spacer{font-size:13px;font-weight:600;margin-right:2px;visibility:hidden;white-space:nowrap}
+  .trust .ti{width:46px;display:flex;align-items:center;justify-content:center;color:var(--blue)}
+  .hero-wallets{display:flex;align-items:center;gap:10px;margin-top:22px}
+  .hero-wallets .hw-label{font-size:13px;font-weight:600;color:var(--muted-2);margin-right:2px}
+  .hero-wallets .wal{flex:0 0 auto;width:46px;height:46px;margin:0;cursor:default;transition:border-color .18s ease,transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s ease}
+  .hero-wallets .wal:hover{transform:translateY(-3px);box-shadow:0 8px 18px -6px rgba(16,24,64,.22);border-color:#cdd7ea}
+  html[data-theme="dark"] .hero-wallets .wal:hover{border-color:#3a466a;box-shadow:0 8px 18px -6px rgba(0,0,0,.5)}
+  .hero-wallets .wal:hover img{transform:scale(1.08)}
+  .hero-wallets .wal img{transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  .trust .ti svg{color:var(--blue)}
+
+  /* right hero region */
+  .hero-right{display:grid;grid-template-columns:1.55fr 1fr;gap:20px;position:relative}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .22s ease}
+  .card:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(16,24,64,.12);border-color:#e2e8f5}
+
+  /* activity overview */
+  .ao{padding:20px 22px 18px;position:relative;overflow:visible}
+  .ao-head{display:flex;align-items:center;gap:12px}
+  .ao-ic{width:38px;height:38px;border-radius:11px;background:#eef4ff;display:grid;place-items:center;color:var(--blue)}
+  .ao-head h3{font-size:17px;font-weight:700}
+  .ao-head p{font-size:12.5px;color:var(--muted);font-weight:500}
+  .ao-head p b{color:var(--ink-2)}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;padding:6px 11px}
+  .pill.green{background:var(--green-bg);color:var(--green)}
+  .ao-head .pill{margin-left:auto}
+  .mrow{display:grid;grid-template-columns:34px 1fr auto auto 64px;gap:12px;align-items:center;padding:13px 4px;border-bottom:1px solid #f2f5fa;border-radius:10px;transition:background .18s ease}
+  .mrow:hover{background:#f6f9ff}
+  html[data-theme="dark"] .mrow:hover{background:#19233c}
+  .mrow:last-child{border-bottom:none}
+  .mic{width:34px;height:34px;border-radius:9px;background:#f1f5fb;display:grid;place-items:center;color:#475569}
+  .mq{font-size:13.5px;font-weight:700;line-height:1.25}
+  .yn{display:flex;flex-direction:column;align-items:center;border-radius:9px;padding:5px 11px;min-width:54px}
+  .yn.y{background:#ecfdf3}
+  .yn.n{background:#fef2f2}
+  .yn small{font-size:10px;font-weight:700;letter-spacing:.03em}
+  .yn.y small{color:#15803d}
+  .yn.n small{color:#dc2626}
+  .yn b{font-size:14px}
+  .yn.y b{color:#16a34a}
+  .yn.n b{color:#ef4444}
+  .ao-foot{text-align:center;padding:15px;border-top:1px solid #f2f5fa;margin-top:4px}
+  .ao-foot a{color:var(--blue);font-weight:700;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+
+  /* right column small cards */
+  .rcol{display:flex;flex-direction:column;gap:20px}
+  .cw{padding:22px}
+  .cw h3{font-size:18px;font-weight:700}
+  .cw p{color:var(--muted);font-size:13.5px;margin-top:5px}
+  .cw .btn-blue{width:100%;margin-top:16px;padding:13px}
+  .wallets{display:flex;gap:10px;margin-top:14px}
+  .wal{flex:1;height:46px;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center;background:#fff;position:relative;cursor:pointer;transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease}
+  .wal:hover{border-color:#dbe2ee;transform:translateY(-2px);box-shadow:0 6px 14px -6px rgba(16,24,64,.18)}
+  .wal img{width:24px;height:24px;object-fit:contain;display:block}
+  .wal img.wal-rounded{border-radius:7px}
+  .wal::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(3px);background:#0d1424;color:#fff;font-size:11px;font-weight:700;letter-spacing:.01em;padding:5px 9px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s ease,transform .15s ease;z-index:10}
+  .wal::before{content:"";position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#0d1424;opacity:0;transition:opacity .15s ease;z-index:10}
+  .wal:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+  .wal:hover::before{opacity:1}
+  html[data-theme="dark"] .wal::after{background:#000;}
+  html[data-theme="dark"] .wal::before{border-top-color:#000;}
+
+  .alloc{padding:22px}
+  .alloc h3{font-size:18px;font-weight:700;margin-bottom:6px}
+  .arow{display:flex;align-items:center;gap:11px;padding:12px 8px;margin:0 -8px;border-bottom:1px solid #f4f6fb;border-radius:10px;transition:background .18s ease}
+  .arow:hover{background:#f6f9ff}
+  html[data-theme="dark"] .arow:hover{background:#19233c}
+  .arow:last-of-type{border-bottom:none}
+  .arow .lbl{display:flex;align-items:center;gap:10px;color:#475569;font-size:14px;font-weight:600}
+  .arow .lbl svg{color:#94a3b8}
+  .arow .st{margin-left:auto;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
+  .st.red{color:#ef4444}
+  .st.amber{color:#f59e0b}
+  .st.muted{color:#94a3b8;font-weight:600}
+  .sdot{width:7px;height:7px;border-radius:50%}
+  .sdot.red{background:#ef4444}.sdot.amber{background:#f59e0b}
+  .alloc .btn-blue{width:100%;margin-top:16px;padding:13px}
+  .elig{margin-top:14px;text-align:center}
+  .elig span{display:inline-flex;align-items:center;gap:7px;background:var(--green-bg);color:var(--green);font-weight:700;font-size:13px;padding:7px 14px;border-radius:999px}
+
+  /* coins */
+  .coin{position:absolute;z-index:5;filter:drop-shadow(0 14px 22px rgba(37,99,235,.35))}
+  .coin img{width:100%;height:100%;display:block}
+  .coin svg{width:100%;height:100%;display:block}
+  .coin.c1{width:59px;height:59px;left:-20px;bottom:52px;transform:rotate(-10deg)}
+  .coin.c2{width:48px;height:48px;right:-22px;bottom:-22px;transform:rotate(12deg)}
+
+  /* ---------- STATS ---------- */
+  .stats{margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(2,1fr);padding:30px 18px}
+  .stat{display:flex;gap:18px;align-items:center;padding:8px 48px;border-right:1px solid #f1f4fa}
+  .stat:last-child{border-right:none}
+  .stat-ic{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;flex-shrink:0}
+  .stat .num{font-size:27px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  .stat .lab{font-size:13px;color:var(--muted);font-weight:600}
+  .stat .sub{font-size:12.5px;color:var(--muted-2);font-weight:500;margin-top:2px}
+
+  /* ---------- STEPS + ACTIVITY ---------- */
+  .grid2{margin-top:24px;display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:start}
+  .steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;position:relative}
+  .step{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);padding:22px 20px;position:relative;z-index:2;transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .22s ease}
+  .step:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(16,24,64,.1);border-color:#e2e8f5}
+  .steps .step:not(:last-child){margin-right:14px}
+  .step-ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;margin-bottom:14px}
+  .step h4{font-size:15.5px;font-weight:700;margin-bottom:8px}
+  .step p{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .step .state{margin-top:16px;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px}
+  .state.red{color:#ef4444}.state.amber{color:#f59e0b}
+  .dash{position:absolute;top:46px;height:0;border-top:2px dashed #cdd8ea;z-index:1}
+
+  /* recent activity */
+  .ra{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px 24px}
+  .ra-head{display:flex;align-items:center;margin-bottom:6px}
+  .ra-head h3{font-size:17px;font-weight:700}
+  .ra-head a{margin-left:auto;color:var(--blue);font-weight:700;font-size:13.5px;display:flex;gap:6px;align-items:center}
+  table{width:100%;border-collapse:collapse}
+  thead th{text-align:left;font-size:12px;color:var(--muted-2);font-weight:600;padding:12px 0;border-bottom:1px solid #f1f4fa}
+  tbody td{padding:13px 0;font-size:13.5px;border-bottom:1px solid #f6f8fc;font-weight:600;color:var(--ink-2)}
+  tbody tr:last-child td{border-bottom:none}
+  .tag{display:inline-block;font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px}
+  .tag.green{background:var(--green-bg);color:var(--green)}
+  .tag.blue{background:#eef4ff;color:var(--blue)}
+  td.time{color:var(--muted-2);font-weight:600}
+  td.addr{font-family:ui-monospace,monospace;font-weight:600}
+
+  /* ---------- SECURITY ---------- */
+  .sec{margin:26px 0 60px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:30px 34px;display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:34px;align-items:center}
+  .sec-lead{display:flex;align-items:center;gap:18px}
+  .sec-ic{width:64px;height:64px;border-radius:16px;background:#eef4ff;display:grid;place-items:center;color:var(--blue)}
+  .sec-lead h3{font-size:20px;font-weight:800;line-height:1.15}
+  .sec-item{display:flex;gap:13px;align-items:center;border-left:1px solid #f0f3f9;padding-left:26px}
+  .sec-item svg{color:var(--blue);flex-shrink:0}
+  .sec-item h5{font-size:14.5px;font-weight:700}
+  .sec-item p{font-size:12.5px;color:var(--muted);line-height:1.45}
+
+  /* ---------- FOOTER ---------- */
+  footer{margin-top:64px;border-top:1px solid var(--line);background:rgba(247,249,255,.5)}
+  .foot{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding:54px 0 38px}
+  .foot-brand .fb-top{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+  .foot-brand .fb-top .logo{width:38px;height:38px}
+  .foot-brand .fb-top .wordmark{font-size:19px}
+  .foot-brand p{color:var(--muted);font-size:14px;line-height:1.6;max-width:280px}
+  .foot-socials{display:flex;gap:10px;margin-top:20px}
+  .foot-socials a{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:#475569;transition:border-color .16s ease,color .16s ease,transform .16s ease}
+  .foot-socials a:hover{border-color:#cdd7ea;color:var(--blue);transform:translateY(-2px)}
+  .foot-col h6{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px}
+  .foot-col a{display:block;color:var(--muted);font-size:14px;font-weight:600;padding:6px 0;transition:color .14s ease}
+  .foot-col a:hover{color:var(--blue)}
+  .foot-bot{border-top:1px solid var(--line);padding:20px 0 30px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .foot-bot p{color:var(--muted-2);font-size:13px;font-weight:600}
+  .foot-bot .links{margin-left:auto;display:flex;gap:24px}
+  .foot-bot .links a{color:var(--muted);font-size:13px;font-weight:600}
+  .foot-bot .links a:hover{color:var(--blue)}
+  html[data-theme="dark"] footer{background:rgba(10,15,29,.4);border-top-color:var(--line)}
+  html[data-theme="dark"] .foot-socials a{background:#131a2c;border-color:#283250;color:#aeb9d1}
+  html[data-theme="dark"] .foot-socials a:hover{color:var(--blue-bright);border-color:#3a466a}
+  @media(max-width:820px){.foot{grid-template-columns:1fr 1fr;gap:30px}.foot-brand{grid-column:1/-1}}
+  @media(max-width:520px){.foot{grid-template-columns:1fr}.foot-bot{flex-direction:column;align-items:flex-start}.foot-bot .links{margin-left:0}}
+
+  /* ---------- AGREEMENT MODAL ---------- */
+  .wm.ag{max-width:484px}
+  .ag-body{padding:4px 24px 24px}
+  .ag-notice{display:flex;gap:13px;background:#fff7f4;border:1px solid #f6d6ca;border-radius:14px;padding:15px;margin-bottom:6px}
+  .ag-notice-ic{width:38px;height:38px;border-radius:10px;background:#fce4db;display:grid;place-items:center;color:#df5f34;flex-shrink:0}
+  .ag-notice h4{font-size:14.5px;font-weight:800;color:#b8481f}
+  .ag-notice p{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:4px}
+  .ag-check{display:flex;gap:12px;align-items:flex-start;padding:13px 2px;cursor:pointer;border-bottom:1px solid var(--line)}
+  .ag-check input{position:absolute;opacity:0;width:0;height:0}
+  .ag-check .box{width:22px;height:22px;border-radius:7px;border:2px solid #cfd8e8;flex-shrink:0;display:grid;place-items:center;color:#fff;transition:background .15s ease,border-color .15s ease;margin-top:1px}
+  .ag-check .box svg{opacity:0;transition:opacity .12s ease}
+  .ag-check input:checked + .box{background:var(--blue);border-color:var(--blue)}
+  .ag-check input:checked + .box svg{opacity:1}
+  .ag-check.on .box{background:var(--blue);border-color:var(--blue)}
+  .ag-check.on .box svg{opacity:1}
+  .ag-check .lbl{font-size:13.5px;font-weight:600;color:var(--ink-2);line-height:1.45}
+  .ag-check .lbl a{color:var(--blue);font-weight:700}
+  .ag-continue{width:100%;margin-top:18px;padding:15px;font-size:15px}
+  .ag-continue[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(.2)}
+  .ag-continue[disabled]:hover{transform:none;box-shadow:0 2px 6px rgba(37,99,235,.22)}
+  html[data-theme="dark"] .ag-notice{background:rgba(223,95,52,.1);border-color:rgba(223,95,52,.32)}
+  html[data-theme="dark"] .ag-notice-ic{background:rgba(223,95,52,.2)}
+  html[data-theme="dark"] .ag-notice h4{color:#f0a285}
+  html[data-theme="dark"] .ag-check .box{border-color:#3a466a}
+
+  /* ---------- WALLET CONNECT MODAL ---------- */
+  .wm-overlay{position:fixed;inset:0;z-index:90;background:rgba(8,12,23,.55);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:24px}
+  .wm-overlay.open{display:flex}
+  .wm{width:100%;max-width:440px;background:var(--card,#fff);border:1px solid var(--line);border-radius:22px;box-shadow:0 36px 80px rgba(8,12,23,.4);overflow:hidden;animation:wmIn .24s cubic-bezier(.22,1,.36,1)}
+  @keyframes wmIn{from{transform:translateY(16px) scale(.98)}to{transform:none}}
+  .wm-hd{display:flex;align-items:center;gap:13px;padding:22px 24px 18px}
+  .wm-hd .ti{width:42px;height:42px;border-radius:12px;background:#eef4ff;display:grid;place-items:center;color:var(--blue)}
+  .wm-hd h3{font-size:19px;font-weight:800}
+  .wm-hd p{font-size:13px;color:var(--muted);font-weight:500;margin-top:2px}
+  .wm-close{margin-left:auto;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:transparent;display:grid;place-items:center;color:var(--muted);cursor:pointer;transition:border-color .16s ease,color .16s ease}
+  .wm-close:hover{border-color:#cdd7ea;color:var(--ink-2)}
+  .wm-list{padding:4px 16px 8px;display:flex;flex-direction:column;gap:8px}
+  .wm-opt{display:flex;align-items:center;gap:14px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;font-family:inherit;text-align:left;width:100%;transition:border-color .16s ease,background .16s ease,transform .12s ease}
+  .wm-opt:hover{border-color:#c6d2ea;background:#f7f9ff;transform:translateY(-1px)}
+  .wm-opt img{width:34px;height:34px;object-fit:contain}
+  .wm-opt img.r{border-radius:8px}
+  .wm-opt .nm{font-size:15px;font-weight:700;color:var(--ink)}
+  .wm-opt .sub{font-size:12px;color:var(--muted);font-weight:600;margin-top:1px}
+  .wm-opt .badge2{margin-left:auto;font-size:11px;font-weight:700;color:var(--green);background:var(--green-bg,#ecfdf3);padding:4px 9px;border-radius:999px}
+  .wm-opt .chev{margin-left:auto;color:var(--muted-2)}
+  .wm-opt .nm-wrap{min-width:0;display:flex;flex-direction:column}
+  .pm-field{padding:8px 4px 4px}
+  .pm-field label{display:block;font-size:13px;font-weight:700;color:var(--ink-2);margin-bottom:8px}
+  .pm-field input{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-family:ui-monospace,SFMono-Regular,monospace;font-size:13.5px;font-weight:600;color:var(--ink);background:#f7f9ff;transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+  .pm-field input::placeholder{font-family:'Plus Jakarta Sans',sans-serif;color:var(--muted-2);font-weight:500}
+  .pm-field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.13);background:#fff}
+  .pm-field input.err{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+  .pm-hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+  .pm-hint.err{color:#ef4444;font-weight:600}
+  .pm-go{width:100%;margin-top:14px;padding:13px}
+  .pm-works{display:flex;align-items:center;gap:9px;padding:14px 8px 6px;margin-top:8px;border-top:1px solid var(--line)}
+  .pm-works span{font-size:12px;font-weight:600;color:var(--muted-2);margin-right:2px}
+  .pm-works img{width:26px;height:26px;object-fit:contain}
+  .pm-works img.r{border-radius:6px}
+  .pm-spin-logo{position:absolute;inset:22px;border-radius:50%;background:#0d1421;color:#fff;display:grid;place-items:center;font-weight:800;font-size:24px}
+  html[data-theme="dark"] .pm-field input{background:#10182b;border-color:var(--line);color:var(--ink)}
+  html[data-theme="dark"] .pm-field input:focus{background:#0d1426}
+  .pm-help{margin-top:10px}
+  .pm-help summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--blue)}
+  .pm-help summary::-webkit-details-marker{display:none}
+  .pm-help summary:hover{text-decoration:underline}
+  .pm-help[open] summary{margin-bottom:8px}
+  .pm-help ol{margin:0 0 0 2px;padding:0;list-style:none;counter-reset:s}
+  .pm-help li{counter-increment:s;position:relative;padding-left:26px;font-size:12.5px;color:var(--ink-2);line-height:1.5;margin-bottom:7px;font-weight:500}
+  .pm-help li::before{content:counter(s);position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--green-bg);color:var(--green);font-size:11px;font-weight:800;display:grid;place-items:center}
+  .pm-help li .mono{font-family:ui-monospace,monospace;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:11.5px}
+  .pm-help > p{font-size:12px;color:var(--muted);margin-top:4px;padding-left:2px;line-height:1.45}
+  .pm-help-link{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:12.5px;font-weight:700;color:var(--blue)}
+  .pm-help-link:hover{text-decoration:underline}
+  .wm-foot{padding:16px 24px 22px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;font-weight:600}
+  .wm-foot a{color:var(--muted);transition:color .15s ease}
+  .wm-foot a:hover{color:var(--blue)}
+  .wm-foot .dot-sep{color:var(--muted-2)}
+  /* connecting state */
+  .wm-connecting{display:none;flex-direction:column;align-items:center;text-align:center;padding:14px 30px 34px}
+  .wm.is-connecting .wm-list,.wm.is-connecting .wm-foot{display:none}
+  .wm.is-connecting .wm-connecting{display:flex}
+  .wm-spin{position:relative;width:84px;height:84px;margin:8px 0 20px}
+  .wm-spin .ring{position:absolute;inset:0;border-radius:50%;border:3px solid var(--line);border-top-color:var(--blue);animation:wmspin .8s linear infinite}
+  @keyframes wmspin{to{transform:rotate(360deg)}}
+  .wm-spin img{position:absolute;inset:18px;width:48px;height:48px;object-fit:contain}
+  .wm-spin img.r{border-radius:10px}
+  .wm-connecting h4{font-size:18px;font-weight:800;line-height:1.3}
+  .wm-connecting p{font-size:13.5px;color:var(--muted);margin-top:6px;font-weight:500}
+  .scan-steps{list-style:none;margin:20px 0 4px;padding:0;width:100%;max-width:280px;text-align:left}
+  .scan-steps li{display:flex;align-items:center;gap:11px;font-size:13.5px;font-weight:600;color:var(--muted-2);padding:7px 0;transition:color .3s ease}
+  .scan-steps li i{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex-shrink:0;position:relative;transition:border-color .3s ease,background .3s ease}
+  .scan-steps li.active{color:var(--ink-2)}
+  .scan-steps li.active i{border-color:var(--blue);border-top-color:transparent;animation:wmspin .7s linear infinite}
+  .scan-steps li.done{color:var(--ink-2)}
+  .scan-steps li.done i{border-color:var(--green);background:var(--green);animation:none}
+  .scan-steps li.done i::after{content:"";position:absolute;left:5px;top:2px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  html[data-theme="dark"] .wm-opt{background:#10182b;border-color:var(--line)}
+  html[data-theme="dark"] .wm-opt:hover{background:#16213d;border-color:#3a466a}
+  html[data-theme="dark"] .wm-hd .ti{background:#16213d}
+  html[data-theme="dark"] .wm-close{border-color:var(--line);color:#aeb9d1}
+
+  /* ---------- DARK THEME ---------- */
+  html[data-theme="dark"]{
+    --ink:#eef2fb;--ink-2:#cdd6e8;--muted:#94a3bd;--muted-2:#6b7894;
+    --line:#222c44;--card:#131a2c;--bg:#0a0f1d;
+    --shadow:0 16px 40px rgba(0,0,0,.45);--shadow-sm:0 8px 22px rgba(0,0,0,.4);
+    --blue-bright:#5b8bff;
+  }
+  html[data-theme="dark"] body{
+    background:
+      radial-gradient(1200px 600px at 78% -8%, #14203f 0%, rgba(20,32,63,0) 60%),
+      radial-gradient(900px 500px at 12% 6%, #111a33 0%, rgba(17,26,51,0) 55%),
+      linear-gradient(180deg,#0a0f1d 0%,#080c17 60%);
+  }
+  html[data-theme="dark"] header{background:rgba(10,15,29,.78);border-bottom-color:rgba(34,44,68,.8)}
+  html[data-theme="dark"] .nav-links a{color:#aeb9d1}
+  html[data-theme="dark"] .nav-links a:hover{color:var(--blue-bright)}
+  html[data-theme="dark"] .icon-btn,
+  html[data-theme="dark"] .btn-ghost,
+  html[data-theme="dark"] .badge,
+  html[data-theme="dark"] .wal{background:#131a2c;border-color:#283250;color:var(--ink)}
+  html[data-theme="dark"] .stats,
+  html[data-theme="dark"] .step,
+  html[data-theme="dark"] .ra,
+  html[data-theme="dark"] .sec{background:var(--card);border-color:var(--line)}
+  html[data-theme="dark"] .stat{border-right-color:#222c44}
+  html[data-theme="dark"] .ao-ic,
+  html[data-theme="dark"] .sec-ic{background:#16213d}
+  html[data-theme="dark"] .mic{background:#1a2238;color:#aeb9d1}
+  html[data-theme="dark"] .mrow{border-bottom-color:#1c2538}
+  html[data-theme="dark"] .ao-foot{border-top-color:#1c2538}
+  html[data-theme="dark"] .yn.y{background:rgba(22,163,74,.14)}
+  html[data-theme="dark"] .yn.n{background:rgba(239,68,68,.13)}
+  html[data-theme="dark"] .dash{border-top-color:#2c3552}
+  html[data-theme="dark"] thead th{border-bottom-color:#222c44}
+  html[data-theme="dark"] tbody td{border-bottom-color:#1a2236}
+  html[data-theme="dark"] .sec-item{border-left-color:#222c44}
+  html[data-theme="dark"] .tag.blue{background:rgba(37,99,235,.18)}
+  html[data-theme="dark"] .btn-blue{box-shadow:0 1px 1px rgba(0,0,0,.3),0 8px 20px -6px rgba(37,99,235,.5)}
+  html[data-theme="dark"] .btn-blue:hover{box-shadow:0 2px 4px rgba(0,0,0,.34),0 14px 28px -8px rgba(37,99,235,.6)}
+  html[data-theme="dark"] .icon-btn{background:#131a2c;border-color:#283250;color:#aeb9d1}
+  html[data-theme="dark"] .icon-btn:hover{border-color:#3a466a}
+
+  @media(max-width:1080px){
+    .hero{grid-template-columns:1fr}
+    h1{font-size:58px}
+    .stats{grid-template-columns:repeat(2,1fr);gap:14px 0}
+    .stat:nth-child(2){border-right:none}
+    .grid2{grid-template-columns:1fr}
+    .sec{grid-template-columns:1fr 1fr;gap:24px}
+  }
+  @media(max-width:680px){
+    .wrap{padding:0 20px}
+    .nav-links{display:none}
+    .hero-right{grid-template-columns:1fr}
+    h1{font-size:44px}
+    .stats,.steps,.sec{grid-template-columns:1fr}
+    .stat{border-right:none}
+    .cta{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="#fff" opacity=".95"/><path d="M12 2 21 7l-9 5-9-5 9-5Z" fill="#dbe7ff"/><path d="M12 12 21 7v10l-9 5V12Z" fill="#bcd2ff"/></svg>
+      </div>
+      <span class="wordmark">Polydrop</span>
+    </div>
+    <nav class="nav-links">
+      <a href="About Polydrop.html">About Polydrop</a>
+      <a href="https://docs.polymarket.com/" target="_blank" rel="noopener">Documentation</a>
+    </nav>
+    <div class="nav-right">
+
+      <a href="Drop Dashboard.html" class="btn btn-blue js-connect">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Get Started
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <span class="badge"><span class="dot"></span>REWARDS LIVE</span>
+      <h1>Connect. Predict.<br><span class="b">Get Rewarded.</span></h1>
+      <p class="lead">Connect your wallet, link Polymarket, and claim your rewards.</p>
+      <div class="cta">
+        <a href="Drop Dashboard.html" class="btn btn-blue js-connect">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          Get Started
+        </a>
+      </div>
+      <div class="hero-wallets">
+        <span class="hw-label">Works with</span>
+        <span class="wal" data-tip="MetaMask" aria-label="MetaMask"><img src="assets/wallet-metamask.png" alt="MetaMask" /></span>
+        <span class="wal" data-tip="Coinbase Wallet" aria-label="Coinbase Wallet"><img src="assets/wallet-coinbase.png" alt="Coinbase Wallet" class="wal-rounded" /></span>
+        <span class="wal" data-tip="WalletConnect" aria-label="WalletConnect"><img src="assets/wallet-walletconnect.png" alt="WalletConnect" /></span>
+        <span class="wal" data-tip="Phantom" aria-label="Phantom"><img src="assets/wallet-phantom.png" alt="Phantom" class="wal-rounded" /></span>
+      </div>
+      <div class="trust">
+        <span class="hw-spacer">Works with</span>
+        <div class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></div>
+        <div class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="card ao">
+        <div class="ao-head">
+          <div class="ao-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M16 4h5v5"/></svg></div>
+          <div>
+            <h3>Activity Overview</h3>
+            <p>Your recent market participation on <b>Polymarket</b></p>
+          </div>
+          <span class="pill green"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Verified Activity</span>
+        </div>
+
+        <div class="mrow">
+          <div class="mic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></div>
+          <div class="mq">U.S. Inflation Rate in May<br>above 3.2%?</div>
+          <div class="yn y"><small>Yes</small><b>68%</b></div>
+          <div class="yn n"><small>No</small><b>32%</b></div>
+          <svg width="64" height="34" viewBox="0 0 64 34" fill="none"><polyline points="2,26 12,22 22,24 32,16 42,18 52,9 62,5" stroke="#16a34a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="5" r="2.5" fill="#16a34a"/></svg>
+        </div>
+        <div class="mrow">
+          <div class="mic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 5 12l7 4 7-4-7-10Z"/><path d="m5 13 7 4 7-4-7 9-7-9Z"/></svg></div>
+          <div class="mq">Ethereum to reach $4,000<br>before June?</div>
+          <div class="yn y"><small>Yes</small><b>57%</b></div>
+          <div class="yn n"><small>No</small><b>43%</b></div>
+          <svg width="64" height="34" viewBox="0 0 64 34" fill="none"><polyline points="2,24 12,25 22,18 32,20 42,12 52,14 62,7" stroke="#16a34a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="7" r="2.5" fill="#16a34a"/></svg>
+        </div>
+        <div class="mrow">
+          <div class="mic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M16.5 6.5H9.8a2.8 2.8 0 0 0 0 5.6h4.4a2.8 2.8 0 0 1 0 5.6H7"/></svg></div>
+          <div class="mq">Bitcoin above $100k<br>by June 30?</div>
+          <div class="yn y"><small>Yes</small><b>61%</b></div>
+          <div class="yn n"><small>No</small><b>39%</b></div>
+          <svg width="64" height="34" viewBox="0 0 64 34" fill="none"><polyline points="2,22 12,18 22,20 32,13 42,15 52,8 62,6" stroke="#16a34a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="6" r="2.5" fill="#16a34a"/></svg>
+        </div>
+        <div class="mrow">
+          <div class="mic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+          <div class="mq">Fed cuts interest rates<br>in July?</div>
+          <div class="yn y"><small>Yes</small><b>41%</b></div>
+          <div class="yn n"><small>No</small><b>59%</b></div>
+          <svg width="64" height="34" viewBox="0 0 64 34" fill="none"><polyline points="2,10 12,12 22,9 32,16 42,14 52,22 62,24" stroke="#ef4444" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="24" r="2.5" fill="#ef4444"/></svg>
+        </div>
+
+      </div>
+
+      <div class="rcol">
+        <div class="card alloc">
+          <h3>Review Your Allocation</h3>
+          <div class="arow">
+            <span class="lbl"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20"/></svg>Wallet Status</span>
+            <span class="st red"><span class="sdot red"></span>Not Connected</span>
+          </div>
+          <div class="arow">
+            <span class="lbl"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 15 15 9M10 6l1-1a4 4 0 0 1 6 6l-1 1M14 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg>Polymarket</span>
+            <span class="st amber"><span class="sdot amber"></span>Link Required</span>
+          </div>
+          <div class="arow">
+            <span class="lbl"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Eligibility</span>
+            <span class="st amber"><span class="sdot amber"></span>Pending</span>
+          </div>
+          <div class="arow">
+            <span class="lbl"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 7l7-5 7 5"/><circle cx="12" cy="14" r="4"/></svg>Allocation</span>
+            <span class="st muted">Available After Review</span>
+          </div>
+          <a href="Drop Dashboard.html" class="btn btn-blue js-connect">Review Allocation</a>
+          <div class="elig"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="m8 12 3 3 5-6"/></svg>Eligible after review</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-ic" style="background:#f0eafc;color:#7c3aed"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+      <div><div class="lab">Reward Pool</div><div class="num" data-count="12.42" data-prefix="$" data-suffix="M" data-decimals="2">$12.42M</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-ic" style="background:#e6f7ee;color:#16a34a"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><path d="M16 5a3.5 3.5 0 0 1 0 7M18 20c0-2.5-.8-4.3-2-5.5"/></svg></div>
+      <div><div class="lab">Active Participants</div><div class="num" data-count="18642" data-comma="1">18,642</div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand">
+        <div class="fb-top">
+          <div class="logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="#fff" opacity=".95"/><path d="M12 2 21 7l-9 5-9-5 9-5Z" fill="#dbe7ff"/><path d="M12 12 21 7v10l-9 5V12Z" fill="#bcd2ff"/></svg>
+          </div>
+          <span class="wordmark">Polydrop</span>
+        </div>
+        <p>Predict markets, connect your wallet, and claim rewards for verified Polymarket activity.</p>
+      </div>
+      <div class="foot-col">
+        <h6>Product</h6>
+        <a href="Drop Dashboard.html">Dashboard</a>
+        <a href="About Polydrop.html">About $DROP</a>
+      </div>
+      <div class="foot-col">
+        <h6>Resources</h6>
+        <a href="https://docs.polymarket.com/" target="_blank" rel="noopener">Documentation</a>
+        <a href="How It Works.html">How it works</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <p>© 2026 Polydrop. All rights reserved.</p>
+      <div class="links">
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="https://polymarket.com/tos" target="_blank" rel="noopener">Terms of Service</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="wm-overlay" id="agOverlay">
+  <div class="wm ag" role="dialog" aria-modal="true" aria-label="Fair Participation Policy">
+    <div class="wm-hd">
+      <div class="ti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <div>
+        <h3>Fair Participation Policy</h3>
+      </div>
+      <button class="wm-close" id="agClose" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="ag-body">
+      <div class="ag-notice">
+        <div class="ag-notice-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6"/><path d="M19 7v4M19 14.5v.2"/></svg></div>
+        <div>
+          <h4>No Sybil activity</h4>
+          <p>Polydrop rewards genuine, unique participants. Creating multiple wallets or accounts to farm rewards (Sybil behavior) is strictly prohibited and will lead to disqualification.</p>
+        </div>
+      </div>
+      <label class="ag-check">
+        <input type="checkbox" class="ag-cb" />
+        <span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 6"/></svg></span>
+        <span class="lbl">I am a real, unique participant and will use only a single wallet.</span>
+      </label>
+      <label class="ag-check">
+        <input type="checkbox" class="ag-cb" />
+        <span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 6"/></svg></span>
+        <span class="lbl">I will not create multiple wallets or accounts to farm rewards. I understand Sybil activity leads to forfeiture of all rewards.</span>
+      </label>
+      <label class="ag-check">
+        <input type="checkbox" class="ag-cb" />
+        <span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 6"/></svg></span>
+        <span class="lbl">I agree to the <a href="https://polymarket.com/tos" target="_blank" rel="noopener" onclick="event.stopPropagation()">Terms of Service</a> and <a href="Privacy Policy.html" onclick="event.stopPropagation()">Privacy Policy</a>.</span>
+      </label>
+      <button class="btn btn-blue ag-continue" id="agContinue" disabled>Agree &amp; Continue</button>
+    </div>
+  </div>
+</div>
+
+<div class="wm-overlay" id="pmOverlay">
+  <div class="wm" id="pmModal" role="dialog" aria-modal="true" aria-label="Connect your Polymarket wallet">
+    <div class="wm-hd">
+      <div class="ti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20"/><circle cx="17" cy="14" r="1.4" fill="currentColor"/></svg></div>
+      <div>
+        <h3>Connect your Polymarket wallet</h3>
+        <p>Connect the wallet you use on Polymarket to verify your activity</p>
+      </div>
+      <button class="wm-close" id="pmClose" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="wm-list">
+      <div class="pm-field">
+        <label for="pmAddr">Polymarket wallet address</label>
+        <input id="pmAddr" type="text" autocomplete="off" spellcheck="false" placeholder="0x… or polymarket.com/profile/…" />
+        <div class="pm-hint" id="pmHint">Use your Polymarket <b>profile address</b> (from polymarket.com/profile/…) — not your MetaMask address.</div>
+        <details class="pm-help">
+          <summary><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.2a3 3 0 1 1 4 2.8c-.8.3-1.2.9-1.2 1.7v.3"/><path d="M12 17.5h.01"/></svg>Where do I find this?</summary>
+          <ol>
+            <li>Open <b>polymarket.com</b> and click your avatar (top-right) → <b>Profile</b>.</li>
+            <li>Your profile URL looks like <span class="mono">polymarket.com/profile/0x…</span></li>
+            <li>Copy that <b>0x…</b> address (or the whole link) and paste it above.</li>
+          </ol>
+          <p>Tip: this is different from your MetaMask address — Polymarket trades live on a separate profile wallet.</p>
+          <a class="pm-help-link" href="https://polymarket.com/settings" target="_blank" rel="noopener">Open Polymarket settings <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        </details>
+        <button class="btn btn-blue pm-go" id="pmGo">Connect &amp; Verify</button>
+      </div>
+      <div class="pm-works">
+        <span>Works with</span>
+        <img src="assets/wallet-metamask.png" alt="MetaMask" />
+        <img src="assets/wallet-coinbase.png" alt="Coinbase Wallet" class="r" />
+        <img src="assets/wallet-walletconnect.png" alt="WalletConnect" />
+        <img src="assets/wallet-phantom.png" alt="Phantom" class="r" />
+      </div>
+    </div>
+    <div class="wm-foot">
+      <a href="https://polymarket.com/tos" target="_blank" rel="noopener">Terms</a>
+      <span class="dot-sep">•</span>
+      <a href="Privacy Policy.html" target="_blank" rel="noopener">Privacy</a>
+    </div>
+    <div class="wm-connecting">
+      <div class="wm-spin"><div class="ring"></div><div class="pm-spin-logo">P</div></div>
+      <h4 id="pmConnTitle">Analyzing your wallet…</h4>
+      <p>Reading your on-chain Polymarket activity.</p>
+      <ul class="scan-steps" id="pmScanSteps">
+        <li><i></i>Reading on-chain activity</li>
+        <li><i></i>Calculating lifetime volume</li>
+        <li><i></i>Determining your $DROP allocation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="polydrop-pm.js"></script>
+<script>
+(function(){
+  var root=document.documentElement;
+  root.removeAttribute('data-theme');
+  function sync(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    document.querySelectorAll('.ic-sun').forEach(function(e){e.style.display=dark?'none':'block';});
+    document.querySelectorAll('.ic-moon').forEach(function(e){e.style.display=dark?'block':'none';});
+  }
+  sync();
+  var btn=document.getElementById('themeToggle');
+  if(btn) btn.addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    if(dark){root.removeAttribute('data-theme');localStorage.setItem('drop-theme','light');}
+    else{root.setAttribute('data-theme','dark');localStorage.setItem('drop-theme','dark');}
+    sync();
+  });
+})();
+
+/* ---- fair participation agreement flow ---- */
+(function(){
+  var ov=document.getElementById('agOverlay');
+  var closeBtn=document.getElementById('agClose');
+  var cont=document.getElementById('agContinue');
+  var cbs=ov.querySelectorAll('.ag-cb');
+
+  function openModal(){ ov.classList.add('open'); }
+  function closeModal(){ ov.classList.remove('open'); }
+  function refresh(){
+    var all=true;
+    cbs.forEach(function(c){
+      var box=c.parentNode.querySelector('.box');
+      var svg=box?box.querySelector('svg'):null;
+      if(c.checked){
+        if(box){ box.style.background='#2563eb'; box.style.borderColor='#2563eb'; }
+        if(svg){ svg.style.opacity='1'; }
+      }else{
+        if(box){ box.style.background=''; box.style.borderColor=''; }
+        if(svg){ svg.style.opacity=''; }
+        all=false;
+      }
+    });
+    cont.disabled=!all;
+  }
+  cbs.forEach(function(c){ c.addEventListener('change',refresh); });
+
+  cont.addEventListener('click',function(){
+    if(cont.disabled) return;
+    localStorage.setItem('drop-agreed','1');
+    closeModal();
+    pmOpen();
+  });
+
+  // ---- Polymarket wallet connect (step 2) ----
+  var pmOv=document.getElementById('pmOverlay');
+  var pmModal=document.getElementById('pmModal');
+  var pmInput=document.getElementById('pmAddr');
+  var pmGo=document.getElementById('pmGo');
+  var pmHint=document.getElementById('pmHint');
+  var pmDefaultHint='Use your Polymarket profile address (from polymarket.com/profile/\u2026) — not your MetaMask address.';
+  function pmOpen(){ pmModal.classList.remove('is-connecting'); if(pmHint){pmHint.classList.remove('err');pmHint.textContent=pmDefaultHint;} if(pmInput){pmInput.classList.remove('err');} pmOv.classList.add('open'); setTimeout(function(){ if(pmInput) pmInput.focus(); },70); }
+  function pmClose(){ pmOv.classList.remove('open'); pmModal.classList.remove('is-connecting'); }
+  function pmErr(msg){ pmModal.classList.remove('is-connecting'); if(pmInput) pmInput.classList.add('err'); if(pmHint){ pmHint.classList.add('err'); pmHint.textContent=msg; } if(pmInput) pmInput.focus(); }
+  async function pmConnect(){
+    var a=(window.PMApi&&PMApi.normalizeAddress)?PMApi.normalizeAddress(pmInput?pmInput.value:''):null;
+    if(!a){ pmErr('Enter a valid wallet address (0x\u2026) or Polymarket profile link.'); return; }
+    pmModal.classList.add('is-connecting');
+    function setStep(n){ var items=document.querySelectorAll('#pmScanSteps li'); items.forEach(function(li,i){ li.classList.toggle('done', i<n); li.classList.toggle('active', i===n); }); }
+    setStep(0);
+    var t1=setTimeout(function(){ setStep(1); },700);
+    var t2=setTimeout(function(){ setStep(2); },1500);
+    var minWait=new Promise(function(r){ setTimeout(r,2100); });
+    try{
+      var s=await PMApi.getSummary(a);
+      await minWait;
+      clearTimeout(t1); clearTimeout(t2);
+      if(!s.hasData){ pmErr('No activity on this address. Make sure it\u2019s your Polymarket profile address (polymarket.com/profile/\u2026), not your MetaMask/exchange address.'); return; }
+      setStep(3);
+      localStorage.setItem('drop-agreed','1');
+      localStorage.setItem('drop-connected','1');
+      localStorage.setItem('drop-pm-address',s.address);
+      setTimeout(function(){ window.location.href='Drop Dashboard.html'; },350);
+    }catch(e){ clearTimeout(t1); clearTimeout(t2); pmErr('Could not reach Polymarket right now. Please try again.'); }
+  }
+  if(pmGo) pmGo.addEventListener('click',pmConnect);
+  if(pmInput){
+    pmInput.addEventListener('keydown',function(e){ if(e.key==='Enter') pmConnect(); });
+    pmInput.addEventListener('input',function(){ pmInput.classList.remove('err'); if(pmHint){pmHint.classList.remove('err');pmHint.textContent=pmDefaultHint;} });
+  }
+  document.getElementById('pmClose').addEventListener('click',pmClose);
+  pmOv.addEventListener('click',function(e){ if(e.target===pmOv) pmClose(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') pmClose(); });
+
+  // any CTA on the landing opens the wallet connect step directly
+  document.querySelectorAll('.js-connect').forEach(function(el){
+    el.addEventListener('click',function(e){ e.preventDefault(); pmOpen(); });
+  });
+  closeBtn.addEventListener('click',closeModal);
+  ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+
+  // arrived here because the dashboard gate sent us back — open the policy automatically
+  if(/[?&]gate=1/.test(window.location.search)){ pmOpen(); }
+})();
+
+/* ---- scroll-triggered: count-up stats + sparkline draw ---- */
+(function(){
+  function animateCount(el){
+    var target=parseFloat(el.getAttribute('data-count'));
+    var dec=parseInt(el.getAttribute('data-decimals')||'0',10);
+    var prefix=el.getAttribute('data-prefix')||'';
+    var suffix=el.getAttribute('data-suffix')||'';
+    var comma=el.getAttribute('data-comma')==='1';
+    var dur=1300, start=null;
+    function fmt(v){
+      var s=v.toFixed(dec);
+      if(comma) s=s.replace(/\B(?=(\d{3})+(?!\d))/g,',');
+      return prefix+s+suffix;
+    }
+    function step(ts){
+      if(!start) start=ts;
+      var p=Math.min((ts-start)/dur,1);
+      var eased=1-Math.pow(1-p,3);
+      el.textContent=fmt(target*eased);
+      if(p<1) requestAnimationFrame(step);
+      else el.textContent=fmt(target);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var el=en.target;
+      if(el.classList.contains('num')){ animateCount(el); }
+      if(el.classList.contains('ao')){ el.classList.add('drawn'); }
+      io.unobserve(el);
+    });
+  },{threshold:.4});
+
+  document.querySelectorAll('.num[data-count]').forEach(function(e){ io.observe(e); });
+  var ao=document.querySelector('.ao'); if(ao) io.observe(ao);
+})();
+
+/* ---- live Activity Overview: ticking sparklines + percent flicker ---- */
+(function(){
+  var XS=[2,12,22,32,42,52,62];
+  var rows=[].slice.call(document.querySelectorAll('.ao .mrow')).map(function(row){
+    var poly=row.querySelector('polyline');
+    var dot=row.querySelector('circle');
+    if(!poly) return null;
+    var ys=poly.getAttribute('points').trim().split(/\s+/).map(function(p){return parseFloat(p.split(',')[1]);});
+    var yEl=row.querySelector('.yn.y');
+    return {poly:poly,dot:dot,ys:ys,
+      color:poly.getAttribute('stroke'),
+      yn_y:yEl,yn_n:row.querySelector('.yn.n'),
+      yb:yEl?yEl.querySelector('b'):null,
+      nb:row.querySelector('.yn.n b')};
+  }).filter(Boolean);
+
+  function render(r,ys){
+    r.poly.setAttribute('points',XS.map(function(x,i){return x+','+ys[i].toFixed(1);}).join(' '));
+    if(r.dot) r.dot.setAttribute('cy',ys[ys.length-1].toFixed(1));
+  }
+  function tween(r,target){
+    var from=r.ys.slice(),start=null,dur=620;
+    function step(ts){
+      if(!start)start=ts;var p=Math.min((ts-start)/dur,1),e=1-Math.pow(1-p,3);
+      var cur=from.map(function(v,i){return v+(target[i]-v)*e;});
+      render(r,cur);
+      if(p<1)requestAnimationFrame(step);else{r.ys=target;render(r,target);}
+    }
+    requestAnimationFrame(step);
+  }
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+  function tick(r){
+    var next=r.ys.slice(1);
+    var last=r.ys[r.ys.length-1];
+    var ny=clamp(last+(Math.random()*8-4), 5, 29);
+    next.push(ny);
+    tween(r,next);
+    // occasionally nudge the Yes/No percentage in the trend's direction
+    if(r.yb && Math.random()<0.6){
+      var yes=parseInt(r.yb.textContent,10);
+      yes=clamp(yes+(ny<last?1:-1)*(Math.random()<0.5?1:0), 5, 95);
+      r.yb.textContent=yes+'%';
+      if(r.nb) r.nb.textContent=(100-yes)+'%';
+      var cell=r.yn_y; if(cell){cell.classList.add('flash');setTimeout(function(){cell.classList.remove('flash');},600);}
+    }
+  }
+
+  var i=0;
+  setInterval(function(){
+    if(document.hidden || !rows.length) return;
+    tick(rows[i % rows.length]);
+    i++;
+  },1900);
+})();
+</script>
+
+</body>
+</html>

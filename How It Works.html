@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Polydrop — How It Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --blue:#2563eb;--blue-bright:#2f6bff;
+    --ink:#0d1424;--ink-2:#1e293b;--muted:#64748b;--muted-2:#94a3b8;
+    --green:#16a34a;--green-bg:#ecfdf3;--green-bg2:#dcfce7;
+    --line:#eef1f7;--card:#ffffff;
+    --shadow:0 12px 34px rgba(16,24,64,.06);--shadow-sm:0 6px 18px rgba(16,24,64,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);
+    background:radial-gradient(1100px 560px at 80% -10%, #eef1ff 0%, rgba(238,241,255,0) 60%),linear-gradient(180deg,#f7f9ff 0%,#ffffff 36%);
+    -webkit-font-smoothing:antialiased;line-height:1.6;min-height:100vh}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+  a{text-decoration:none;color:inherit}
+  svg{display:block}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);background:rgba(247,249,255,.92);border-bottom:1px solid var(--line);transition:box-shadow .2s ease,background .2s ease}
+  header.scrolled{background:rgba(247,249,255,.98);box-shadow:0 6px 22px -10px rgba(16,24,64,.22)}
+  .nav{display:flex;align-items:center;gap:42px;height:80px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(150deg,#3b82f6,#1d4ed8);display:grid;place-items:center;box-shadow:0 8px 18px rgba(37,99,235,.35)}
+  .wordmark{font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .nav-links{display:flex;gap:34px;align-items:center}
+  .nav-links a{color:#334155;font-weight:600;font-size:15px}
+  .nav-links a:hover{color:var(--blue)}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+  .icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:#475569;transition:border-color .18s ease,box-shadow .2s ease}
+  .icon-btn:hover{border-color:#dbe2ee;box-shadow:0 4px 12px -4px rgba(16,24,64,.14)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-family:inherit;border:none;cursor:pointer;border-radius:13px;font-size:15px;transition:transform .18s ease,box-shadow .22s ease,filter .18s ease}
+  .btn-blue{background:linear-gradient(180deg,#2f6bff,#2152e6);color:#fff;padding:13px 22px;box-shadow:0 2px 6px rgba(37,99,235,.22)}
+  .btn-blue:hover{filter:brightness(1.04);box-shadow:0 8px 18px -4px rgba(37,99,235,.4);transform:translateY(-1px)}
+  .btn-lg{padding:16px 30px;font-size:16px}
+
+  /* HERO */
+  .doc-hero{padding:56px 0 38px;text-align:center;border-bottom:1px solid var(--line)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--blue);background:#eef4ff;padding:7px 15px;border-radius:999px;margin-bottom:20px}
+  .doc-hero h1{font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+  .doc-hero .sub{color:var(--muted);font-size:18px;margin:18px auto 0;max-width:580px}
+
+  main{padding:140px 0 84px}
+  .section-head{text-align:center;max-width:620px;margin:0 auto 36px}
+  .section-head h2{font-size:30px;font-weight:800;letter-spacing:-.025em}
+  .section-head p{color:var(--muted);font-size:16px;margin-top:10px}
+  .block{margin-bottom:78px}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:step}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);padding:26px 22px;position:relative;display:flex;flex-direction:column;transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .22s ease}
+  .step:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(16,24,64,.1);border-color:#e2e8f5}
+  html[data-theme="dark"] .step:hover{border-color:#3a466a;box-shadow:0 18px 40px rgba(0,0,0,.42)}
+  .step .num{position:absolute;top:20px;right:22px;font-size:38px;font-weight:800;color:#eef1f9;letter-spacing:-.03em;line-height:1}
+  .step .ic{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;margin-bottom:18px}
+  .step h3{font-size:17px;font-weight:800;margin-bottom:9px}
+  .step p{font-size:13.5px;color:var(--muted);line-height:1.55}
+  html[data-theme="dark"] .step .num{color:#1a2238}
+
+  /* ELIGIBILITY */
+  .elig-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:880px;margin:0 auto}
+  .elig{display:flex;gap:15px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px 22px;box-shadow:var(--shadow-sm);transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s ease,border-color .2s ease}
+  .elig:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(16,24,64,.1);border-color:#e2e8f5}
+  html[data-theme="dark"] .elig:hover{border-color:#3a466a;box-shadow:0 14px 32px rgba(0,0,0,.4)}
+  .elig .ci{width:42px;height:42px;border-radius:12px;background:var(--green-bg);color:var(--green);display:grid;place-items:center;flex-shrink:0}
+  .elig h4{font-size:15.5px;font-weight:700;margin-bottom:4px}
+  .elig p{font-size:13.5px;color:var(--muted);line-height:1.5}
+
+  /* REWARDS + SYBIL split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:980px;margin:0 auto}
+  .panel{border-radius:20px;padding:30px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .22s ease}
+  .panel:hover{transform:translateY(-4px);box-shadow:0 20px 44px rgba(16,24,64,.11)}
+  html[data-theme="dark"] .panel:hover{box-shadow:0 20px 44px rgba(0,0,0,.42)}
+  .panel .pic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:18px}
+  .panel h3{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .panel p{font-size:14.5px;color:var(--ink-2);margin-bottom:12px}
+  .panel ul{list-style:none}
+  .panel li{position:relative;padding-left:24px;font-size:14px;color:var(--ink-2);margin-bottom:9px;font-weight:500}
+  .panel li::before{content:"";position:absolute;left:3px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--blue);transform:rotate(45deg)}
+  .panel.sybil{background:linear-gradient(180deg,#fff7f4,#ffffff);border-color:#f6d6ca}
+  .panel.sybil .pic{background:#fce4db;color:#df5f34}
+  .panel.sybil li::before{background:#df5f34}
+  html[data-theme="dark"] .panel.sybil{background:rgba(223,95,52,.08);border-color:rgba(223,95,52,.3)}
+  html[data-theme="dark"] .panel.sybil .pic{background:rgba(223,95,52,.2)}
+
+  /* FAQ */
+  .faq{max-width:760px;margin:0 auto}
+  .qa{border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .18s cubic-bezier(.22,1,.36,1),box-shadow .18s ease,border-color .18s ease}
+  .qa:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(16,24,64,.09);border-color:#e2e8f5}
+  html[data-theme="dark"] .qa:hover{border-color:#3a466a;box-shadow:0 12px 28px rgba(0,0,0,.4)}
+  .qa summary{list-style:none;cursor:pointer;padding:19px 22px;display:flex;align-items:center;gap:14px;font-size:16px;font-weight:700}
+  .qa summary::-webkit-details-marker{display:none}
+  .qa summary .chev{margin-left:auto;color:var(--muted-2);transition:transform .2s ease;flex-shrink:0}
+  .qa[open] summary .chev{transform:rotate(180deg)}
+  .qa .a{padding:0 22px 20px;color:var(--muted);font-size:14.5px;line-height:1.6}
+  .qa summary .qi{width:30px;height:30px;border-radius:9px;background:#eef4ff;color:var(--blue);display:grid;place-items:center;flex-shrink:0}
+  html[data-theme="dark"] .qa summary .qi{background:#16213d}
+
+  /* CTA */
+  .cta-band{max-width:980px;margin:0 auto;background:linear-gradient(125deg,#2f6bff,#1f49d8);border-radius:24px;padding:48px 40px;text-align:center;color:#fff;box-shadow:0 24px 50px -18px rgba(37,99,235,.5)}
+  .cta-band h2{font-size:32px;font-weight:800;letter-spacing:-.02em}
+  .cta-band p{font-size:16px;opacity:.9;margin:12px auto 26px;max-width:480px}
+  .cta-band .btn{background:#fff;color:var(--blue);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+  .cta-band .btn:hover{filter:none;background:#f3f6ff}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);background:rgba(247,249,255,.5)}
+  .foot{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding:54px 0 38px}
+  .foot-brand .fb-top{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+  .foot-brand .fb-top .logo{width:38px;height:38px}
+  .foot-brand .fb-top .wordmark{font-size:19px}
+  .foot-brand p{color:var(--muted);font-size:14px;line-height:1.6;max-width:280px}
+  .foot-col h6{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px}
+  .foot-col a{display:block;color:var(--muted);font-size:14px;font-weight:600;padding:6px 0;transition:color .14s ease}
+  .foot-col a:hover{color:var(--blue)}
+  .foot-bot{border-top:1px solid var(--line);padding:20px 0 30px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .foot-bot p{color:var(--muted-2);font-size:13px;font-weight:600}
+  .foot-bot .links{margin-left:auto;display:flex;gap:24px}
+  .foot-bot .links a{color:var(--muted);font-size:13px;font-weight:600}
+  .foot-bot .links a:hover{color:var(--blue)}
+
+  /* DARK */
+  html[data-theme="dark"]{--ink:#eef2fb;--ink-2:#cdd6e8;--muted:#94a3bd;--muted-2:#6b7894;--line:#222c44;--card:#131a2c;--blue-bright:#5b8bff;--green-bg:rgba(22,163,74,.14)}
+  html[data-theme="dark"] body{background:radial-gradient(1100px 560px at 80% -10%, #14203f 0%, rgba(20,32,63,0) 60%),linear-gradient(180deg,#0a0f1d 0%,#080c17 60%)}
+  html[data-theme="dark"] header{background:rgba(10,15,29,.92);border-bottom-color:rgba(34,44,68,.8)}
+  html[data-theme="dark"] header.scrolled{background:rgba(10,15,29,.98);box-shadow:0 6px 22px -8px rgba(0,0,0,.6)}
+  html[data-theme="dark"] .nav-links a{color:#aeb9d1}
+  html[data-theme="dark"] .nav-links a:hover{color:var(--blue-bright)}
+  html[data-theme="dark"] .icon-btn{background:#131a2c;border-color:#283250;color:var(--ink)}
+  html[data-theme="dark"] .icon-btn:hover{border-color:#3a466a;box-shadow:none}
+  html[data-theme="dark"] .eyebrow{background:#16213d}
+  html[data-theme="dark"] .step .ic[data-bg]{filter:none}
+  html[data-theme="dark"] footer{background:rgba(10,15,29,.4)}
+
+  @media(max-width:980px){.steps{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}}
+  @media(max-width:760px){.wrap{padding:0 22px}.nav-links{display:none}.doc-hero h1{font-size:38px}.elig-grid{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
+  @media(max-width:520px){.steps{grid-template-columns:1fr}.foot{grid-template-columns:1fr}.foot-bot{flex-direction:column;align-items:flex-start}.foot-bot .links{margin-left:0}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="Drop Landing.html" class="brand">
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="#fff" opacity=".95"/><path d="M12 2 21 7l-9 5-9-5 9-5Z" fill="#dbe7ff"/><path d="M12 12 21 7v10l-9 5V12Z" fill="#bcd2ff"/></svg>
+      </div>
+      <span class="wordmark">Polydrop</span>
+    </a>
+    <nav class="nav-links">
+      <a href="https://docs.polymarket.com/" target="_blank" rel="noopener">Documentation</a>
+    </nav>
+    <div class="nav-right">
+
+      <a href="Drop Landing.html" class="btn btn-blue">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Get Started
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="doc-hero">
+  <div class="wrap">
+    <span class="eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>How It Works</span>
+    <h1>From connect to claim<br>in four simple steps</h1>
+    <p class="sub">Polydrop rewards genuine Polymarket participants. Here's exactly how eligibility is verified and how rewards reach your wallet — no seed phrase, no hidden steps.</p>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <!-- STEPS -->
+  <div class="block">
+    <div class="steps">
+      <div class="step" style="border-radius: 18px; border-width: 1px; margin: 0px; opacity: 1; gap: 0px; height: 230px; width: 297px">
+        <span class="num">01</span>
+        <div class="ic" style="background:#eef4ff;color:#2563eb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Review &amp; agree</h3>
+        <p>Read our Fair Participation Policy and confirm you're a real, single-wallet participant. No Sybil farming.</p>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <div class="ic" style="background:#e6f7ee;color:#16a34a"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20"/><circle cx="17" cy="14" r="1.4" fill="currentColor"/></svg></div>
+        <h3>Connect your wallet</h3>
+        <p>Link MetaMask, Coinbase Wallet, WalletConnect, or Phantom. We only read your public address.</p>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <div class="ic" style="background:#efeafc;color:#7c3aed"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M16 4h5v5"/></svg></div>
+        <h3>We verify activity</h3>
+        <p>Your public Polymarket history is checked against the eligibility rules and scored automatically.</p>
+      </div>
+      <div class="step">
+        <span class="num">04</span>
+        <div class="ic" style="background:#fff5e6;color:#f59e0b"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v14M6 10l6 6 6-6"/><path d="M4 20h16"/></svg></div>
+        <h3>Claim your rewards</h3>
+        <p>Eligible wallets claim USDC directly on-chain. Funds land in your wallet — no middleman.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELIGIBILITY -->
+  <div class="block">
+    <div class="section-head">
+      <h2>Who's eligible</h2>
+      <p>Eligibility is based entirely on verifiable, on-chain participation. You meet the bar if your wallet checks these boxes.</p>
+    </div>
+    <div class="elig-grid">
+      <div class="elig">
+        <div class="ci"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 6"/></svg></div>
+        <div><h4>Minimum on-chain activity</h4><p>A baseline level of real trading or market participation on Polymarket.</p></div>
+      </div>
+      <div class="elig">
+        <div class="ci"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 6"/></svg></div>
+        <div><h4>Genuine transactions</h4><p>Eligible markets and trades — not wash trading or artificial volume.</p></div>
+      </div>
+      <div class="elig">
+        <div class="ci"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 6"/></svg></div>
+        <div><h4>Holding history</h4><p>Activity spread over time, showing real engagement rather than last-minute farming.</p></div>
+      </div>
+      <div class="elig">
+        <div class="ci"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 6"/></svg></div>
+        <div><h4>No Sybil flags</h4><p>Your wallet isn't linked to a cluster of accounts farming the same reward pool.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REWARDS + SYBIL -->
+  <div class="block">
+    <div class="section-head">
+      <h2>Rewards &amp; fair play</h2>
+      <p>How allocations are calculated — and why we take Sybil resistance seriously.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <div class="pic" style="background:#eef4ff;color:#2563eb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 7l7-5 7 5"/><circle cx="12" cy="14" r="4"/></svg></div>
+        <h3>How rewards are calculated</h3>
+        <p>Your allocation scales with the depth and consistency of your real participation:</p>
+        <ul>
+          <li>Volume and number of eligible trades</li>
+          <li>How long you've been active on Polymarket</li>
+          <li>Diversity of markets you've participated in</li>
+          <li>Overall eligibility score (0–100)</li>
+        </ul>
+      </div>
+      <div class="panel sybil">
+        <div class="pic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6"/><path d="M19 7v4M19 14.5v.2"/></svg></div>
+        <h3>Why one wallet only</h3>
+        <p>Creating many wallets to farm rewards (Sybil behavior) drains the pool from real users. We don't allow it.</p>
+        <ul>
+          <li>Linked address clusters are detected and flagged</li>
+          <li>Sybil wallets forfeit all rewards</li>
+          <li>Keeping it fair means more for genuine participants</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="block">
+    <div class="section-head">
+      <h2>Frequently asked</h2>
+      <p>Quick answers to the things people ask most.</p>
+    </div>
+    <div class="faq">
+      <details class="qa" open>
+        <summary><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>Do I need to share my seed phrase?</span></summary>
+        <div class="a">Never. Connecting a wallet only shares your public address. We will never ask for your seed phrase or private keys — anyone who does is trying to scam you.</div>
+      </details>
+      <details class="qa">
+        <summary><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>When are rewards paid out?</span></summary>
+        <div class="a">Once your wallet is verified as eligible, rewards become claimable on your dashboard. Claiming sends USDC directly to your wallet on-chain.</div>
+      </details>
+      <details class="qa">
+        <summary><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 5 12l7 4 7-4-7-10Z"/><path d="m5 13.5 7 4 7-4"/></svg></span>What token and network are rewards in?</span></summary>
+        <div class="a">Rewards are distributed in USDC, sent directly to the wallet you connect. A small network fee applies when you claim, shown transparently before you confirm.</div>
+      </details>
+      <details class="qa">
+        <summary><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6"/><path d="M19 8v.2M19 11v4" transform="rotate(180 19 11)"/></svg></span>Can I use multiple wallets?</span></summary>
+        <div class="a">No. Polydrop is one wallet per person. Using multiple wallets to farm rewards is Sybil activity and leads to disqualification of all linked wallets.</div>
+      </details>
+      <details class="qa">
+        <summary><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span>What data do you access?</span></summary>
+        <div class="a">Only your public wallet address and publicly available Polymarket activity, used to verify eligibility. See our <a class="inl" href="Privacy Policy.html" style="color:var(--blue);font-weight:700">Privacy Policy</a> for full details.</div>
+      </details>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-band" style="padding: 35px 40px 48px; margin-bottom: 5px">
+    <h2>Ready to check your eligibility?</h2>
+    <p>Connect your wallet, verify your Polymarket activity, and claim what you've earned.</p>
+    <a href="Drop Landing.html" class="btn btn-lg">Get Started</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand">
+        <div class="fb-top">
+          <div class="logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="#fff" opacity=".95"/><path d="M12 2 21 7l-9 5-9-5 9-5Z" fill="#dbe7ff"/><path d="M12 12 21 7v10l-9 5V12Z" fill="#bcd2ff"/></svg>
+          </div>
+          <span class="wordmark">Polydrop</span>
+        </div>
+        <p>Predict markets, connect your wallet, and claim rewards for verified Polymarket activity.</p>
+      </div>
+      <div class="foot-col">
+        <h6>Product</h6>
+        <a href="Drop Dashboard.html">Dashboard</a>
+        <a href="About Polydrop.html">About $DROP</a>
+      </div>
+      <div class="foot-col">
+        <h6>Resources</h6>
+        <a href="https://docs.polymarket.com/" target="_blank" rel="noopener">Documentation</a>
+        <a href="How It Works.html">How it works</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <p>© 2026 Polydrop. All rights reserved.</p>
+      <div class="links">
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="https://polymarket.com/tos" target="_blank" rel="noopener">Terms of Service</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  root.removeAttribute('data-theme');
+  function sync(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    document.querySelectorAll('.ic-sun').forEach(function(e){e.style.display=dark?'none':'block';});
+    document.querySelectorAll('.ic-moon').forEach(function(e){e.style.display=dark?'block':'none';});
+  }
+  sync();
+  var btn=document.getElementById('themeToggle');
+  if(btn) btn.addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    if(dark){root.removeAttribute('data-theme');localStorage.setItem('drop-theme','light');}
+    else{root.setAttribute('data-theme','dark');localStorage.setItem('drop-theme','dark');}
+    sync();
+  });
+
+  var hdr=document.querySelector('header');
+  function onScroll(){ hdr.classList.toggle('scrolled', window.scrollY>8); }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

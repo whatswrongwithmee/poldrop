@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Polydrop — Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --blue:#2563eb;--blue-bright:#2f6bff;
+    --ink:#0d1424;--ink-2:#1e293b;--muted:#64748b;--muted-2:#94a3b8;
+    --green:#16a34a;--green-bg:#ecfdf3;
+    --line:#eef1f7;--card:#ffffff;
+    --shadow:0 12px 34px rgba(16,24,64,.06);--shadow-sm:0 6px 18px rgba(16,24,64,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);
+    background:radial-gradient(1100px 560px at 80% -10%, #eef1ff 0%, rgba(238,241,255,0) 60%),linear-gradient(180deg,#f7f9ff 0%,#ffffff 36%);
+    -webkit-font-smoothing:antialiased;line-height:1.6;min-height:100vh}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+  a{text-decoration:none;color:inherit}
+  svg{display:block}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(8px);background:rgba(247,249,255,.72);border-bottom:1px solid rgba(238,241,247,.8)}
+  .nav{display:flex;align-items:center;gap:42px;height:80px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(150deg,#3b82f6,#1d4ed8);display:grid;place-items:center;box-shadow:0 8px 18px rgba(37,99,235,.35)}
+  .wordmark{font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .nav-links{display:flex;gap:34px;align-items:center}
+  .nav-links a{color:#334155;font-weight:600;font-size:15px}
+  .nav-links a:hover{color:var(--blue)}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+  .icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:#475569;transition:border-color .18s ease,box-shadow .2s ease}
+  .icon-btn:hover{border-color:#dbe2ee;box-shadow:0 4px 12px -4px rgba(16,24,64,.14)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-family:inherit;border:none;cursor:pointer;border-radius:13px;font-size:15px;transition:transform .18s ease,box-shadow .22s ease,filter .18s ease}
+  .btn-blue{background:linear-gradient(180deg,#2f6bff,#2152e6);color:#fff;padding:13px 22px;box-shadow:0 2px 6px rgba(37,99,235,.22)}
+  .btn-blue:hover{filter:brightness(1.04);box-shadow:0 8px 18px -4px rgba(37,99,235,.4);transform:translateY(-1px)}
+
+  /* HERO */
+  .doc-hero{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+  .crumb{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--muted-2);margin-bottom:18px}
+  .crumb a:hover{color:var(--blue)}
+  .crumb svg{opacity:.6}
+  .doc-hero h1{font-size:46px;font-weight:800;letter-spacing:-.03em}
+  .doc-hero .sub{color:var(--muted);font-size:17px;margin-top:14px;max-width:620px}
+  .updated{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:13px;font-weight:700;color:var(--blue);background:#eef4ff;padding:7px 14px;border-radius:999px}
+
+  /* LAYOUT */
+  .doc{display:grid;grid-template-columns:240px 1fr;gap:54px;padding:44px 0 70px;align-items:start}
+  .toc{position:sticky;top:104px}
+  .toc h6{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);margin-bottom:14px}
+  .toc a{display:block;color:var(--muted);font-size:14px;font-weight:600;padding:7px 0;border-left:2px solid transparent;padding-left:14px;margin-left:-2px;transition:color .14s ease,border-color .14s ease}
+  .toc a:hover{color:var(--blue)}
+  .toc a.active{color:var(--blue);border-left-color:var(--blue)}
+
+  .content{max-width:760px}
+  .content section{padding-bottom:34px;margin-bottom:34px;border-bottom:1px solid var(--line)}
+  .content section:last-child{border-bottom:none;margin-bottom:0}
+  .content h2{font-size:23px;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;margin-bottom:16px;scroll-margin-top:104px}
+  .content h2 .n{width:30px;height:30px;border-radius:9px;background:#eef4ff;color:var(--blue);display:grid;place-items:center;font-size:14px;font-weight:800;flex-shrink:0}
+  .content h3{font-size:16px;font-weight:700;margin:20px 0 8px}
+  .content p{color:var(--ink-2);font-size:15.5px;margin-bottom:14px}
+  .content p:last-child{margin-bottom:0}
+  .content a.inl{color:var(--blue);font-weight:700}
+  .content ul{list-style:none;margin:4px 0 14px}
+  .content li{position:relative;padding-left:26px;color:var(--ink-2);font-size:15.5px;margin-bottom:10px}
+  .content li::before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:2px;background:var(--blue);transform:rotate(45deg)}
+  .content li b{color:var(--ink)}
+
+  .callout{display:flex;gap:14px;background:#f0fdf4;border:1px solid #c5ecd0;border-radius:15px;padding:18px 20px;margin:6px 0 14px}
+  .callout .ci{width:40px;height:40px;border-radius:11px;background:#dcfce7;color:var(--green);display:grid;place-items:center;flex-shrink:0}
+  .callout h4{font-size:15px;font-weight:800;color:#15803d;margin-bottom:4px}
+  .callout p{font-size:13.5px;color:#3f6b4d;margin:0}
+
+  .contact-card{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-top:6px}
+  .contact-card .ci{width:48px;height:48px;border-radius:13px;background:#eef4ff;color:var(--blue);display:grid;place-items:center;flex-shrink:0}
+  .contact-card .lab{font-size:13px;color:var(--muted);font-weight:600}
+  .contact-card .val{font-size:16px;font-weight:800;color:var(--ink);margin-top:2px}
+  .contact-card a{margin-left:auto}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);background:rgba(247,249,255,.5)}
+  .foot{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding:54px 0 38px}
+  .foot-brand .fb-top{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+  .foot-brand .fb-top .logo{width:38px;height:38px}
+  .foot-brand .fb-top .wordmark{font-size:19px}
+  .foot-brand p{color:var(--muted);font-size:14px;line-height:1.6;max-width:280px}
+  .foot-col h6{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px}
+  .foot-col a{display:block;color:var(--muted);font-size:14px;font-weight:600;padding:6px 0;transition:color .14s ease}
+  .foot-col a:hover{color:var(--blue)}
+  .foot-bot{border-top:1px solid var(--line);padding:20px 0 30px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .foot-bot p{color:var(--muted-2);font-size:13px;font-weight:600}
+  .foot-bot .links{margin-left:auto;display:flex;gap:24px}
+  .foot-bot .links a{color:var(--muted);font-size:13px;font-weight:600}
+  .foot-bot .links a:hover{color:var(--blue)}
+
+  /* DARK */
+  html[data-theme="dark"]{--ink:#eef2fb;--ink-2:#cdd6e8;--muted:#94a3bd;--muted-2:#6b7894;--line:#222c44;--card:#131a2c;--blue-bright:#5b8bff}
+  html[data-theme="dark"] body{background:radial-gradient(1100px 560px at 80% -10%, #14203f 0%, rgba(20,32,63,0) 60%),linear-gradient(180deg,#0a0f1d 0%,#080c17 60%)}
+  html[data-theme="dark"] header{background:rgba(10,15,29,.78);border-bottom-color:rgba(34,44,68,.8)}
+  html[data-theme="dark"] .nav-links a{color:#aeb9d1}
+  html[data-theme="dark"] .nav-links a:hover{color:var(--blue-bright)}
+  html[data-theme="dark"] .icon-btn{background:#131a2c;border-color:#283250;color:var(--ink)}
+  html[data-theme="dark"] .icon-btn:hover{border-color:#3a466a;box-shadow:none}
+  html[data-theme="dark"] .updated{background:#16213d}
+  html[data-theme="dark"] .content h2 .n{background:#16213d}
+  html[data-theme="dark"] .callout{background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.3)}
+  html[data-theme="dark"] .callout .ci{background:rgba(22,163,74,.2)}
+  html[data-theme="dark"] .callout h4{color:#6ee7a0}
+  html[data-theme="dark"] .callout p{color:#a7d8b9}
+  html[data-theme="dark"] .contact-card{background:var(--card);border-color:var(--line)}
+  html[data-theme="dark"] .contact-card .ci{background:#16213d}
+  html[data-theme="dark"] footer{background:rgba(10,15,29,.4)}
+
+  @media(max-width:900px){.wrap{padding:0 22px}.doc{grid-template-columns:1fr;gap:30px}.toc{display:none}.doc-hero h1{font-size:34px}.foot{grid-template-columns:1fr 1fr;gap:30px}.foot-brand{grid-column:1/-1}}
+  @media(max-width:520px){.foot{grid-template-columns:1fr}.foot-bot{flex-direction:column;align-items:flex-start}.foot-bot .links{margin-left:0}.contact-card{flex-wrap:wrap}.contact-card a{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="Drop Landing.html" class="brand">
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="#fff" opacity=".95"/><path d="M12 2 21 7l-9 5-9-5 9-5Z" fill="#dbe7ff"/><path d="M12 12 21 7v10l-9 5V12Z" fill="#bcd2ff"/></svg>
+      </div>
+      <span class="wordmark">Polydrop</span>
+    </a>
+    <nav class="nav-links">
+      <a href="https://docs.polymarket.com/" target="_blank" rel="noopener">Documentation</a>
+    </nav>
+    <div class="nav-right">
+
+      <a href="Drop Landing.html" class="btn btn-blue">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Get Started
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="doc-hero">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="Drop Landing.html">Home</a>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      <span>Privacy Policy</span>
+    </div>
+    <h1>Privacy Policy</h1>
+    <p class="sub">This policy explains what information Polydrop collects when you use our airdrop platform, why we collect it, and the choices you have. We keep data collection to the minimum needed to verify eligibility and protect the reward pool from abuse.</p>
+    <span class="updated"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Last updated June 9, 2026</span>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="doc">
+    <aside class="toc">
+      <h6>On this page</h6>
+      <a href="#info" class="active">Information we collect</a>
+      <a href="#use">How we use it</a>
+      <a href="#never">What we never collect</a>
+      <a href="#sybil">Anti-Sybil monitoring</a>
+      <a href="#sharing">Sharing &amp; third parties</a>
+      <a href="#storage">Cookies &amp; local storage</a>
+      <a href="#rights">Your rights</a>
+      <a href="#retention">Data retention</a>
+      <a href="#changes">Changes to this policy</a>
+      <a href="#contact">Contact us</a>
+    </aside>
+
+    <div class="content">
+      <section id="info">
+        <h2><span class="n">1</span>Information we collect</h2>
+        <p>Polydrop is a non-custodial platform. We collect only what is necessary to confirm that you are a genuine, unique participant and to distribute rewards correctly.</p>
+        <ul>
+          <li><b>Wallet address</b> — the public blockchain address you connect, used to check eligibility and send rewards.</li>
+          <li><b>On-chain activity</b> — publicly available Polymarket trading and market-participation data associated with your address.</li>
+          <li><b>Technical data</b> — IP address, browser type, and device information, collected automatically to keep the service secure.</li>
+          <li><b>Local preferences</b> — theme choice and connection state stored in your browser (never sent to us).</li>
+        </ul>
+      </section>
+
+      <section id="use">
+        <h2><span class="n">2</span>How we use your information</h2>
+        <p>We use the information above strictly to operate the airdrop:</p>
+        <ul>
+          <li>Verify that your wallet meets the eligibility requirements.</li>
+          <li>Calculate and distribute your reward allocation.</li>
+          <li>Detect and prevent fraud, abuse, and Sybil activity.</li>
+          <li>Maintain the security, stability, and performance of the platform.</li>
+        </ul>
+        <p>We do <b>not</b> sell your data, and we do <b>not</b> use it for advertising or profiling unrelated to the airdrop.</p>
+      </section>
+
+      <section id="never">
+        <h2><span class="n">3</span>What we never collect</h2>
+        <div class="callout">
+          <div class="ci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <div>
+            <h4>We will never ask for your private keys or seed phrase</h4>
+            <p>Connecting a wallet only shares your public address. Anyone asking for your seed phrase or private keys is attempting to scam you — that is never us.</p>
+          </div>
+        </div>
+        <p>We also do not collect names, email addresses, government IDs, or payment-card details. Participation is pseudonymous and tied only to your public wallet address.</p>
+      </section>
+
+      <section id="sybil">
+        <h2><span class="n">4</span>Anti-Sybil monitoring</h2>
+        <p>To keep the reward pool fair for real users, we analyze on-chain patterns and technical signals to detect <b>Sybil behavior</b> — a single person creating many wallets or accounts to farm rewards.</p>
+        <p>This may include clustering related addresses, reviewing funding sources, and flagging coordinated activity. Wallets identified as Sybil may have their eligibility revoked. We use this analysis only for fraud prevention, not to identify you personally.</p>
+      </section>
+
+      <section id="sharing">
+        <h2><span class="n">5</span>Sharing &amp; third parties</h2>
+        <p>We share data only when necessary to run the service:</p>
+        <ul>
+          <li><b>Blockchain analytics providers</b> — to support eligibility checks and Sybil detection.</li>
+          <li><b>Infrastructure providers</b> — hosting and security services that process technical data on our behalf.</li>
+          <li><b>Legal requirements</b> — if required by applicable law or a valid legal request.</li>
+        </ul>
+        <p>The blockchain itself is public: any transaction we send is permanently visible on-chain. We never sell personal data to third parties.</p>
+      </section>
+
+      <section id="storage">
+        <h2><span class="n">6</span>Cookies &amp; local storage</h2>
+        <p>We use your browser's local storage to remember your theme preference and whether your wallet is connected. These stay on your device and are not used for cross-site tracking or advertising. You can clear them at any time from your browser settings.</p>
+      </section>
+
+      <section id="rights">
+        <h2><span class="n">7</span>Your rights</h2>
+        <p>Depending on your jurisdiction, you may have the right to access, correct, or request deletion of the personal data we hold about you, and to object to certain processing. Because eligibility is tied to a public wallet address, some on-chain data cannot be deleted, as it lives permanently on the blockchain.</p>
+        <p>To exercise any of these rights, contact us using the details below.</p>
+      </section>
+
+      <section id="retention">
+        <h2><span class="n">8</span>Data retention</h2>
+        <p>We keep eligibility and fraud-prevention data only for as long as needed to run the airdrop and meet legal obligations. Technical logs are retained for a limited period and then deleted or anonymized.</p>
+      </section>
+
+      <section id="changes">
+        <h2><span class="n">9</span>Changes to this policy</h2>
+        <p>We may update this Privacy Policy from time to time. When we do, we will revise the "Last updated" date above. Significant changes will be highlighted on this page. Continued use of Polydrop after an update means you accept the revised policy.</p>
+      </section>
+
+      <section id="contact">
+        <h2><span class="n">10</span>Contact us</h2>
+        <p>If you have questions about this policy or how your data is handled, reach out to our privacy team:</p>
+        <div class="contact-card">
+          <div class="ci"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+          <div>
+            <div class="lab">Privacy enquiries</div>
+            <div class="val">privacy@polydrop.xyz</div>
+          </div>
+          <a href="mailto:privacy@polydrop.xyz" class="btn btn-blue">Email us</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand">
+        <div class="fb-top">
+          <div class="logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="#fff" opacity=".95"/><path d="M12 2 21 7l-9 5-9-5 9-5Z" fill="#dbe7ff"/><path d="M12 12 21 7v10l-9 5V12Z" fill="#bcd2ff"/></svg>
+          </div>
+          <span class="wordmark">Polydrop</span>
+        </div>
+        <p>Predict markets, connect your wallet, and claim rewards for verified Polymarket activity.</p>
+      </div>
+      <div class="foot-col">
+        <h6>Product</h6>
+        <a href="Drop Dashboard.html">Dashboard</a>
+        <a href="About Polydrop.html">About $DROP</a>
+      </div>
+      <div class="foot-col">
+        <h6>Resources</h6>
+        <a href="https://docs.polymarket.com/" target="_blank" rel="noopener">Documentation</a>
+        <a href="How It Works.html">How it works</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <p>© 2026 Polydrop. All rights reserved.</p>
+      <div class="links">
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="https://polymarket.com/tos" target="_blank" rel="noopener">Terms of Service</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  root.removeAttribute('data-theme');
+  function sync(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    document.querySelectorAll('.ic-sun').forEach(function(e){e.style.display=dark?'none':'block';});
+    document.querySelectorAll('.ic-moon').forEach(function(e){e.style.display=dark?'block':'none';});
+  }
+  sync();
+  var btn=document.getElementById('themeToggle');
+  if(btn) btn.addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    if(dark){root.removeAttribute('data-theme');localStorage.setItem('drop-theme','light');}
+    else{root.setAttribute('data-theme','dark');localStorage.setItem('drop-theme','dark');}
+    sync();
+  });
+
+  // TOC scroll-spy
+  var links=Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var sections=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  function onScroll(){
+    var y=window.scrollY+120;
+    var idx=0;
+    for(var i=0;i<sections.length;i++){ if(sections[i] && sections[i].offsetTop<=y) idx=i; }
+    links.forEach(function(l,i){ l.classList.toggle('active',i===idx); });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
